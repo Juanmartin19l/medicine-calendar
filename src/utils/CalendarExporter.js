@@ -30,6 +30,13 @@ export function exportToCalendar(medicines) {
           ? `📆 Treatment day: ${dayCount} of ${med.duration}`
           : `📆 Total duration: ${med.duration} day`;
 
+      // Calculate end time, ensuring it doesn't exceed 23:59
+      const endHours = currentTime.getHours() + 1;
+      const endMinutes = currentTime.getMinutes();
+
+      const adjustedEndHours = endHours > 23 ? 23 : endHours; // Ensure hours <= 23
+      const adjustedEndMinutes = endHours > 23 ? 59 : endMinutes; // Ensure minutes <= 59
+
       eventsForMed.push({
         start: [
           currentTime.getFullYear(),
@@ -42,8 +49,8 @@ export function exportToCalendar(medicines) {
           currentTime.getFullYear(),
           currentTime.getMonth() + 1,
           currentTime.getDate(),
-          currentTime.getHours() + 1, // 1-hour duration
-          currentTime.getMinutes(),
+          adjustedEndHours, // Use adjusted hours
+          adjustedEndMinutes, // Use adjusted minutes
         ],
         title: `💊 ${med.name} - every ${med.interval}h`,
         description: `📅 Date: ${eventDate}

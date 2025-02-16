@@ -35,7 +35,10 @@ export function MedicinePage() {
   return (
     <div className="medicine-page">
       <h1>Medicine Calendar</h1>
-      <MedicineForm onSubmit={handleAddMedicine} />
+      <MedicineForm
+        onSubmit={handleAddMedicine}
+        existingMedicines={medicines}
+      />{" "}
       <MedicineList medicines={medicines} onDelete={handleDeleteMedicine} />
       {medicines.length > 0 && (
         <button className="export" onClick={() => exportToCalendar(medicines)}>
