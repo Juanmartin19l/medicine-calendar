@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { FaPills, FaClock, FaCalendarAlt, FaPlus } from "react-icons/fa";
+import "./MedicineForm.css"; // Importar el archivo CSS
 
 export function MedicineForm({ onSubmit }) {
   const [medicine, setMedicine] = useState("");
@@ -25,7 +27,9 @@ export function MedicineForm({ onSubmit }) {
   return (
     <form onSubmit={handleSubmit} className="medicine-form">
       <div>
-        <label htmlFor="medicine-name">Medication Name: </label>
+        <label htmlFor="medicine-name">
+          <FaPills /> Medication Name:
+        </label>
         <input
           type="text"
           id="medicine-name"
@@ -33,11 +37,14 @@ export function MedicineForm({ onSubmit }) {
           maxLength={50}
           onChange={(e) => setMedicine(e.target.value)}
           required
+          placeholder="Enter medication name"
         />
       </div>
 
       <div>
-        <label htmlFor="dosage-interval">Dosage Interval (hours): </label>
+        <label htmlFor="dosage-interval">
+          <FaClock /> Dosage Interval (hours):
+        </label>
         <input
           type="number"
           id="dosage-interval"
@@ -46,11 +53,14 @@ export function MedicineForm({ onSubmit }) {
           max={72}
           onChange={(e) => setInterval(e.target.value)}
           required
+          placeholder="Enter interval in hours"
         />
       </div>
 
       <div>
-        <label htmlFor="duration">Duration (days): </label>
+        <label htmlFor="duration">
+          <FaCalendarAlt /> Duration (days):
+        </label>
         <input
           type="number"
           id="duration"
@@ -59,11 +69,14 @@ export function MedicineForm({ onSubmit }) {
           max={365}
           onChange={(e) => setDuration(e.target.value)}
           required
+          placeholder="Enter duration in days"
         />
       </div>
 
       <div>
-        <label htmlFor="start-time">Start Time: </label>
+        <label htmlFor="start-time">
+          <FaClock /> Start Time:
+        </label>
         <input
           type="time"
           id="start-time"
@@ -73,7 +86,9 @@ export function MedicineForm({ onSubmit }) {
         />
       </div>
 
-      <button type="submit">Add</button>
+      <button type="submit">
+        <FaPlus /> Add Medication
+      </button>
     </form>
   );
 }
