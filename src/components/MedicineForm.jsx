@@ -1,27 +1,68 @@
 import { useState } from "react";
 import { FaPills, FaClock, FaCalendarAlt, FaPlus } from "react-icons/fa";
-import "./MedicineForm.css"; // Importar el archivo CSS
+import "./MedicineForm.css";
 
-export function MedicineForm({ onSubmit }) {
+export function MedicineForm({ onSubmit, existingMedicines }) {
   const [medicine, setMedicine] = useState("");
   const [interval, setInterval] = useState("");
   const [duration, setDuration] = useState("");
   const [startTime, setStartTime] = useState("08:00");
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Empty fields validation
+    if (!medicine.trim()) {
+      newErrors.medicine = "Medicine name is required";
+    }
+    if (!interval) {
+      newErrors.interval = "Interval is required";
+    }
+    if (!duration) {
+      newErrors.duration = "Duration is required";
+    }
+
+    // Duplicate name validation
+    if (
+      existingMedicines?.some(
+        (med) => med.name.toLowerCase() === medicine.toLowerCase()
+      )
+    ) {
+      newErrors.medicine = "This medicine already exists";
+    }
+
+    // Interval vs duration validation
+    const intervalHours = parseInt(interval);
+    const durationDays = parseInt(duration);
+    if (intervalHours && durationDays) {
+      if (intervalHours > durationDays * 24) {
+        newErrors.interval =
+          "Interval cannot be greater than total duration in hours";
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    const newMedicine = {
-      name: medicine,
-      interval: parseInt(interval),
-      duration: parseInt(duration),
-      startTime: startTime,
-    };
-    onSubmit(newMedicine);
-    setMedicine("");
-    setInterval("");
-    setDuration("");
-    setStartTime("08:00");
+    if (validateForm()) {
+      const newMedicine = {
+        name: medicine,
+        interval: parseInt(interval),
+        duration: parseInt(duration),
+        startTime: startTime,
+      };
+      onSubmit(newMedicine);
+      setMedicine("");
+      setInterval("");
+      setDuration("");
+      setStartTime("08:00");
+      setErrors({});
+    }
   }
 
   return (
@@ -36,9 +77,12 @@ export function MedicineForm({ onSubmit }) {
           value={medicine}
           maxLength={50}
           onChange={(e) => setMedicine(e.target.value)}
-          required
           placeholder="Enter medication name"
+          className={errors.medicine ? "error-input" : ""}
         />
+        {errors.medicine && (
+          <span className="error-message">{errors.medicine}</span>
+        )}
       </div>
 
       <div>
@@ -52,9 +96,12 @@ export function MedicineForm({ onSubmit }) {
           min={1}
           max={72}
           onChange={(e) => setInterval(e.target.value)}
-          required
           placeholder="Enter interval in hours"
+          className={errors.interval ? "error-input" : ""}
         />
+        {errors.interval && (
+          <span className="error-message">{errors.interval}</span>
+        )}
       </div>
 
       <div>
@@ -68,9 +115,12 @@ export function MedicineForm({ onSubmit }) {
           min={1}
           max={365}
           onChange={(e) => setDuration(e.target.value)}
-          required
           placeholder="Enter duration in days"
+          className={errors.duration ? "error-input" : ""}
         />
+        {errors.duration && (
+          <span className="error-message">{errors.duration}</span>
+        )}
       </div>
 
       <div>
