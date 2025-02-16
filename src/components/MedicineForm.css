@@ -1,0 +1,75 @@
+/* MedicineForm.css */
+.medicine-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #1e1e1e; /* Fondo oscuro */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra más oscura */
+  color: #f5f5f5; /* Texto claro */
+}
+
+.medicine-form div {
+  margin-bottom: 15px;
+}
+
+.medicine-form label {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espacio entre ícono y texto */
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #f5f5f5; /* Texto claro */
+}
+
+.medicine-form input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #444; /* Borde más oscuro */
+  border-radius: 5px;
+  font-size: 14px;
+  color: #f5f5f5; /* Texto claro */
+  background-color: #2d2d2d; /* Fondo oscuro para inputs */
+  transition: border-color 0.3s ease;
+  box-sizing: border-box; /* Evita desbordamiento */
+}
+
+.medicine-form input:focus {
+  border-color: #007bff; /* Azul para resaltar */
+  outline: none;
+}
+
+.medicine-form input::placeholder {
+  color: #888; /* Placeholder más claro */
+}
+
+/* Estilos específicos para el input de tipo time */
+input[type="time"] {
+  font-family: inherit; /* Hereda la fuente del contenedor */
+  font-size: 14px; /* Asegura que tenga el mismo tamaño de fuente */
+}
+
+/* Ocultar el ícono de reloj predeterminado en inputs de tipo time */
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.medicine-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff; /* Azul principal */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Espacio entre ícono y texto */
+}
+
+.medicine-form button:hover {
+  background-color: #0056b3; /* Azul más oscuro al hacer hover */
+}

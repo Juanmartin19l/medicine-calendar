@@ -1,30 +1,16 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Nunito", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+
   line-height: 1.5;
   font-weight: 400;
 
-  color: rgb(17, 17, 17);
-
+  color: rgb(255, 255, 255);
+  background-color: #222222;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.gradient-background {
-  background: linear-gradient(263deg, #5dcef5, #98c2f3, #80c6c6);
-  background-size: 180% 180%;
-  animation: gradient-animation 12s ease infinite;
-}
-
-@keyframes gradient-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
 }

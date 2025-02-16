@@ -1,24 +1,32 @@
+import "./MedicineList.css";
+import { FaTrashAlt, FaPills, FaClock, FaCalendarAlt } from "react-icons/fa";
+
 export function MedicineList({ medicines, onDelete }) {
   return (
     <div className="medicine-list">
-      <h2>Lista de Medicamentos</h2>
+      <h2>Medicine List</h2>
       {medicines.length === 0 ? (
-        <p>No hay medicamentos agregados.</p>
+        <p>No medicines added.</p>
       ) : (
-        medicines.map((med, index) => (
-          <div key={index} className="medicine-item">
-            <p>
-              <strong>Nombre:</strong> {med.name}
-            </p>
-            <p>
-              <strong>Intervalo:</strong> Cada {med.interval} horas
-            </p>
-            <p>
-              <strong>Duración:</strong> {med.duration} días
-            </p>
-            <button onClick={() => onDelete(index)}>Eliminar</button>
-          </div>
-        ))
+        <div className="medicine-grid">
+          {medicines.map((med, index) => (
+            <div key={index} className="medicine-item">
+              <p>
+                <FaPills /> <strong>Name:</strong> {med.name}
+              </p>
+              <p>
+                <FaClock /> <strong>Interval:</strong> Every {med.interval}{" "}
+                hours
+              </p>
+              <p>
+                <FaCalendarAlt /> <strong>Duration:</strong> {med.duration} days
+              </p>
+              <button className="delete-button" onClick={() => onDelete(index)}>
+                <FaTrashAlt /> Delete
+              </button>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
