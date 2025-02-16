@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { MedicinePage } from "./pages/MedicinePage";
 import "./App.css";
 

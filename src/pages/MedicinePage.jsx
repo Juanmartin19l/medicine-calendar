@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-
 import { MedicineForm } from "../components/MedicineForm";
 import { MedicineList } from "../components/MedicineList";
+import { exportToCalendar } from "../utils/CalendarExporter";
 
 export function MedicinePage() {
   const [medicines, setMedicines] = useState([]);
@@ -33,6 +33,9 @@ export function MedicinePage() {
       </p>
       <MedicineForm onSubmit={handleAddMedicine} />
       <MedicineList medicines={medicines} onDelete={handleDeleteMedicine} />
+      <button onClick={() => exportToCalendar(medicines)}>
+        Exportar a Calendario
+      </button>
     </div>
   );
 }
