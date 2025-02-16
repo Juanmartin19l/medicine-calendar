@@ -1,17 +1,26 @@
 import { useState } from "react";
 
-export function MedicineForm() {
+export function MedicineForm({ onSubmit }) {
   const [medicine, setMedicine] = useState("");
   const [interval, setInterval] = useState("");
   const [duration, setDuration] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(medicine, interval, duration);
+
+    const newMedicine = {
+      name: medicine,
+      interval: interval,
+      duration: duration,
+    };
+    onSubmit(newMedicine); // Pasamos el nuevo medicamento al componente padre
+    setMedicine(""); // Limpia el formulario
+    setInterval("");
+    setDuration("");
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="medicine-form">
       <div>
         <label>Medication Name: </label>
         <input
