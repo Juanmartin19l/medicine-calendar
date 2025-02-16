@@ -25,9 +25,10 @@ export function MedicineForm({ onSubmit }) {
   return (
     <form onSubmit={handleSubmit} className="medicine-form">
       <div>
-        <label>Medication Name: </label>
+        <label htmlFor="medicine-name">Medication Name: </label>
         <input
           type="text"
+          id="medicine-name"
           value={medicine}
           maxLength={50}
           onChange={(e) => setMedicine(e.target.value)}
@@ -36,9 +37,10 @@ export function MedicineForm({ onSubmit }) {
       </div>
 
       <div>
-        <label>Dosage Interval (hours): </label>
+        <label htmlFor="dosage-interval">Dosage Interval (hours): </label>
         <input
           type="number"
+          id="dosage-interval"
           value={interval}
           min={1}
           max={72}
@@ -48,9 +50,10 @@ export function MedicineForm({ onSubmit }) {
       </div>
 
       <div>
-        <label>Duration (days): </label>
+        <label htmlFor="duration">Duration (days): </label>
         <input
           type="number"
+          id="duration"
           value={duration}
           min={1}
           max={365}
@@ -60,9 +63,10 @@ export function MedicineForm({ onSubmit }) {
       </div>
 
       <div>
-        <label>Start Time: </label>
+        <label htmlFor="start-time">Start Time: </label>
         <input
           type="time"
+          id="start-time"
           value={startTime}
           onChange={(e) => setStartTime(e.target.value)}
           required
