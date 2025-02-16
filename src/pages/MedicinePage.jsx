@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { MedicineForm } from "../components/MedicineForm";
 import { MedicineList } from "../components/MedicineList";
 import { exportToCalendar } from "../utils/CalendarExporter";
+import { FaCalendarAlt } from "react-icons/fa";
+import "./MedicinePage.css";
 
 export function MedicinePage() {
   const [medicines, setMedicines] = useState(() => {
@@ -16,9 +18,9 @@ export function MedicinePage() {
   useEffect(() => {
     try {
       localStorage.setItem("medicines", JSON.stringify(medicines));
-      console.log("Datos guardados:", medicines);
+      console.log("Data saved:", medicines);
     } catch (error) {
-      console.error("Error al guardar:", error);
+      console.error("Error saving data:", error);
     }
   }, [medicines]);
 
@@ -35,9 +37,11 @@ export function MedicinePage() {
       <h1>Medicine Calendar</h1>
       <MedicineForm onSubmit={handleAddMedicine} />
       <MedicineList medicines={medicines} onDelete={handleDeleteMedicine} />
-      <button onClick={() => exportToCalendar(medicines)}>
-        Exportar a Calendario
-      </button>
+      {medicines.length > 0 && (
+        <button className="export" onClick={() => exportToCalendar(medicines)}>
+          <FaCalendarAlt /> Export to Calendar
+        </button>
+      )}
     </div>
   );
 }
