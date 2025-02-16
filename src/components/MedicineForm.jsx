@@ -12,33 +12,33 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
   const validateForm = () => {
     const newErrors = {};
 
-    // Validación de campos vacíos
+    // Empty fields validation
     if (!medicine.trim()) {
-      newErrors.medicine = "El nombre del medicamento es requerido";
+      newErrors.medicine = "Medicine name is required";
     }
     if (!interval) {
-      newErrors.interval = "El intervalo es requerido";
+      newErrors.interval = "Interval is required";
     }
     if (!duration) {
-      newErrors.duration = "La duración es requerida";
+      newErrors.duration = "Duration is required";
     }
 
-    // Validación de nombre repetido
+    // Duplicate name validation
     if (
       existingMedicines?.some(
         (med) => med.name.toLowerCase() === medicine.toLowerCase()
       )
     ) {
-      newErrors.medicine = "Este medicamento ya existe";
+      newErrors.medicine = "This medicine already exists";
     }
 
-    // Validación de intervalo vs duración
+    // Interval vs duration validation
     const intervalHours = parseInt(interval);
     const durationDays = parseInt(duration);
     if (intervalHours && durationDays) {
       if (intervalHours > durationDays * 24) {
         newErrors.interval =
-          "El intervalo no puede ser mayor que la duración total en horas";
+          "Interval cannot be greater than total duration in hours";
       }
     }
 
@@ -132,6 +132,7 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           id="start-time"
           value={startTime}
           onChange={(e) => setStartTime(e.target.value)}
+          required
         />
       </div>
 
