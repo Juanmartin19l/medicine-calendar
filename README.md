@@ -42,3 +42,26 @@ To run this project locally, follow these steps:
 1. Clone the repository:
    ```bash
    git clone https://github.com/Juanmartin19l/medicine-calendar.git
+
+2. Navigate into the project directory:
+   ```bash
+   cd medicine-calendar
+4. Install dependencies:
+   ```bash
+   npm install
+5. Start the development server:
+   ```bash
+   npm run dev
+6. Open your browser and visit http://localhost:5173 (or the port indicated in your terminal).
+
+---
+
+## Contact 📧
+If you have any questions or suggestions, feel free to reach out:
+lavallejuanmartin@gmail.com
+
+---
+
+Made with ❤️ by Juan Martín Lavalle.
+Happy coding! 💻✨
+
