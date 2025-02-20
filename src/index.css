@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   font-family: "Nunito", serif;
   font-optical-sizing: auto;
@@ -13,4 +15,22 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Estilos específicos para el input de tipo time */
+input[type="time"] {
+  font-family: inherit; /* Hereda la fuente del contenedor */
+  font-size: 14px; /* Asegura que tenga el mismo tamaño de fuente */
+}
+
+/* Ocultar el ícono de reloj predeterminado en inputs de tipo time */
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.error-message {
+  color: #ff4444;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: block;
 }

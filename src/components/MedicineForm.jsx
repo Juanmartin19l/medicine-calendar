@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { FaPills, FaClock, FaCalendarAlt, FaPlus } from "react-icons/fa";
-import "./MedicineForm.css";
 
 export function MedicineForm({ onSubmit, existingMedicines }) {
   const [medicine, setMedicine] = useState("");
@@ -18,9 +17,13 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
     }
     if (!interval) {
       newErrors.interval = "Interval is required";
+    } else if (parseInt(interval) <= 0) {
+      newErrors.interval = "Interval must be a positive number";
     }
     if (!duration) {
       newErrors.duration = "Duration is required";
+    } else if (parseInt(duration) <= 0) {
+      newErrors.duration = "Duration must be a positive number";
     }
 
     // Duplicate name validation
@@ -66,79 +69,88 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="medicine-form">
-      <div>
-        <label htmlFor="medicine-name">
-          <FaPills /> Medication Name:
-        </label>
-        <input
-          type="text"
-          id="medicine-name"
-          value={medicine}
-          maxLength={50}
-          onChange={(e) => setMedicine(e.target.value)}
-          placeholder="Enter medication name"
-          className={errors.medicine ? "error-input" : ""}
-        />
-        {errors.medicine && (
-          <span className="error-message">{errors.medicine}</span>
-        )}
-      </div>
+    <div className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="flex items-center gap-2">
+            <FaPills />
+            Medication Name:
+          </label>
+          <input
+            type="text"
+            className={`w-full bg-[#2d2d2d] rounded p-2 mt-1 ${
+              errors.medicine ? "error-input" : ""
+            }`}
+            placeholder="Enter medication name"
+            value={medicine}
+            onChange={(e) => setMedicine(e.target.value)}
+          />
+          {errors.medicine && (
+            <span className="error-message">{errors.medicine}</span>
+          )}
+        </div>
 
-      <div>
-        <label htmlFor="dosage-interval">
-          <FaClock /> Dosage Interval (hours):
-        </label>
-        <input
-          type="number"
-          id="dosage-interval"
-          value={interval}
-          min={1}
-          max={72}
-          onChange={(e) => setInterval(e.target.value)}
-          placeholder="Enter interval in hours"
-          className={errors.interval ? "error-input" : ""}
-        />
-        {errors.interval && (
-          <span className="error-message">{errors.interval}</span>
-        )}
-      </div>
+        <div>
+          <label className="flex items-center gap-2">
+            <FaClock />
+            Dosage Interval (hours):
+          </label>
+          <input
+            type="number"
+            className={`w-full bg-[#2d2d2d] rounded p-2 mt-1 ${
+              errors.interval ? "error-input" : ""
+            }`}
+            placeholder="Enter interval in hours"
+            value={interval}
+            onChange={(e) => setInterval(e.target.value)}
+            min="1"
+          />
+          {errors.interval && (
+            <span className="error-message">{errors.interval}</span>
+          )}
+        </div>
 
-      <div>
-        <label htmlFor="duration">
-          <FaCalendarAlt /> Duration (days):
-        </label>
-        <input
-          type="number"
-          id="duration"
-          value={duration}
-          min={1}
-          max={365}
-          onChange={(e) => setDuration(e.target.value)}
-          placeholder="Enter duration in days"
-          className={errors.duration ? "error-input" : ""}
-        />
-        {errors.duration && (
-          <span className="error-message">{errors.duration}</span>
-        )}
-      </div>
+        <div>
+          <label className="flex items-center gap-2">
+            <FaCalendarAlt />
+            Duration (days):
+          </label>
+          <input
+            type="number"
+            className={`w-full bg-[#2d2d2d] rounded p-2 mt-1 ${
+              errors.duration ? "error-input" : ""
+            }`}
+            placeholder="Enter duration in days"
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
+            min="1"
+          />
+          {errors.duration && (
+            <span className="error-message">{errors.duration}</span>
+          )}
+        </div>
 
-      <div>
-        <label htmlFor="start-time">
-          <FaClock /> Start Time:
-        </label>
-        <input
-          type="time"
-          id="start-time"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
-          required
-        />
-      </div>
+        <div>
+          <label className="flex items-center gap-2">
+            <FaClock />
+            Start Time:
+          </label>
+          <input
+            type="time"
+            className="w-full bg-[#2d2d2d] rounded p-2 mt-1"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+            required
+          />
+        </div>
 
-      <button type="submit">
-        <FaPlus /> Add Medication
-      </button>
-    </form>
+        <button
+          type="submit"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded p-2 flex items-center justify-center gap-2"
+        >
+          <FaPlus /> Add Medication
+        </button>
+      </form>
+    </div>
   );
 }
