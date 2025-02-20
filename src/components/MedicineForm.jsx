@@ -180,7 +180,7 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
 
         <motion.button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded p-2 flex items-center justify-center gap-2 transition-colors duration-300"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded p-2 flex items-center justify-center gap-2 transition-colors duration-300 cursor-pointer"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >

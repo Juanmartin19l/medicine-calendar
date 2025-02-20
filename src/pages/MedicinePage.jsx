@@ -34,38 +34,42 @@ export function MedicinePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#222222] text-white p-8 pb-0">
-      <h1 className="text-5xl font-light text-center mb-12 pt-8">
-        Medicine Calendar
-      </h1>
-      <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto sm:p-8">
+    <div className="min-h-screen flex flex-col bg-[#222222] text-white">
+      <div className="flex-grow">
+        <h1 className="text-5xl font-light text-center mb-12 pt-8">
+          Medicine Calendar
+        </h1>
+        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto p-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <MedicineForm
+              onSubmit={handleAddMedicine}
+              existingMedicines={medicines}
+            />
+          </motion.div>
+          <div className="border-t border-gray-600 my-4 md:hidden"></div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <MedicineList
+              medicines={medicines}
+              onDelete={handleDeleteMedicine}
+            />
+          </motion.div>
+        </div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <MedicineForm
-            onSubmit={handleAddMedicine}
-            existingMedicines={medicines}
-          />
-        </motion.div>
-        <div className="border-t border-gray-600 my-4 md:hidden"></div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <MedicineList medicines={medicines} onDelete={handleDeleteMedicine} />
+          <Export medicines={medicines} exportToCalendar={exportToCalendar} />
         </motion.div>
       </div>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-      >
-        <Export medicines={medicines} exportToCalendar={exportToCalendar} />
-      </motion.div>
-
       <Footer />
     </div>
   );

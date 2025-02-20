@@ -42,12 +42,14 @@ export function MedicineList({ medicines, onDelete }) {
                       <span>Duration: {med.duration} days</span>
                     </div>
                   </div>
-                  <button
+                  <motion.button
                     onClick={() => onDelete(index)}
-                    className="bg-red-500 hover:bg-red-600 p-2 rounded"
+                    className="bg-red-500 hover:bg-red-600 p-2 rounded cursor-pointer"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   >
                     <FaTrashAlt />
-                  </button>
+                  </motion.button>
                 </div>
               </motion.div>
             ))}
