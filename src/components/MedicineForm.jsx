@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaPills, FaClock, FaCalendarAlt, FaPlus } from "react-icons/fa";
+import { animate } from "motion";
 
 export function MedicineForm({ onSubmit, existingMedicines }) {
   const [medicine, setMedicine] = useState("");
@@ -7,6 +8,20 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
   const [duration, setDuration] = useState("");
   const [startTime, setStartTime] = useState("08:00");
   const [errors, setErrors] = useState({});
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    if (formRef.current) {
+      animate(
+        formRef.current,
+        {
+          opacity: [0, 1],
+          transform: ["translateY(-20px)", "translateY(0)"],
+        },
+        { duration: 0.5 }
+      );
+    }
+  }, []);
 
   const validateForm = () => {
     const newErrors = {};
@@ -72,7 +87,7 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
     <div className="space-y-4">
       <h2 className="text-2xl mb-4 text-center">Medicine Form</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4" ref={formRef}>
         <div>
           <label className="flex items-center gap-2">
             <FaPills />

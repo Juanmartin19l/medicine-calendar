@@ -1,4 +1,5 @@
 import { FaTrashAlt, FaPills, FaClock, FaCalendarAlt } from "react-icons/fa";
+import { animate, stagger } from "motion";
 
 export function MedicineList({ medicines, onDelete }) {
   return (
@@ -10,9 +11,29 @@ export function MedicineList({ medicines, onDelete }) {
           listed here.
         </div>
       ) : (
-        <div className="grid gap-4 max-h-96 overflow-y-auto">
+        <div
+          className={`grid gap-4 ${
+            medicines.length > 3 ? "max-h-96 overflow-y-auto" : ""
+          }`}
+          style={{ scrollbarGutter: "stable" }}
+        >
           {medicines.map((med, index) => (
-            <div key={index} className="bg-[#444444] p-4 rounded">
+            <div
+              key={index}
+              className="bg-[#444444] p-4 rounded"
+              ref={(el) => {
+                if (el) {
+                  animate(
+                    el,
+                    {
+                      opacity: [0, 1],
+                      transform: ["translateY(20px)", "translateY(0)"],
+                    },
+                    { duration: 0.3, delay: stagger(0.1)[index] }
+                  );
+                }
+              }}
+            >
               <div className="flex justify-between items-start">
                 <div>
                   <div className="flex items-center gap-2">
