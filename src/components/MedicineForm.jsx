@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { FaPills, FaClock, FaCalendarAlt, FaPlus } from "react-icons/fa";
-import { animate } from "motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function MedicineForm({ onSubmit, existingMedicines }) {
   const [medicine, setMedicine] = useState("");
@@ -9,19 +9,6 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
   const [startTime, setStartTime] = useState("08:00");
   const [errors, setErrors] = useState({});
   const formRef = useRef(null);
-
-  useEffect(() => {
-    if (formRef.current) {
-      animate(
-        formRef.current,
-        {
-          opacity: [0, 1],
-          transform: ["translateY(-20px)", "translateY(0)"],
-        },
-        { duration: 0.5 }
-      );
-    }
-  }, []);
 
   const validateForm = () => {
     const newErrors = {};
@@ -96,15 +83,25 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           <input
             type="text"
             className={`w-full bg-[#2d2d2d] rounded p-2 mt-1 ${
-              errors.medicine ? "error-input" : ""
+              errors.medicine ? "border-red-500" : ""
             }`}
             placeholder="Enter medication name"
             value={medicine}
             onChange={(e) => setMedicine(e.target.value)}
           />
-          {errors.medicine && (
-            <span className="error-message">{errors.medicine}</span>
-          )}
+          <AnimatePresence>
+            {errors.medicine && (
+              <motion.span
+                className="text-red-500 text-sm mt-1 block"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                {errors.medicine}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </div>
 
         <div>
@@ -115,16 +112,26 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           <input
             type="number"
             className={`w-full bg-[#2d2d2d] rounded p-2 mt-1 ${
-              errors.interval ? "error-input" : ""
+              errors.interval ? "border-red-500" : ""
             }`}
             placeholder="Enter interval in hours"
             value={interval}
             onChange={(e) => setInterval(e.target.value)}
             min="1"
           />
-          {errors.interval && (
-            <span className="error-message">{errors.interval}</span>
-          )}
+          <AnimatePresence>
+            {errors.interval && (
+              <motion.span
+                className="text-red-500 text-sm mt-1 block"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                {errors.interval}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </div>
 
         <div>
@@ -135,16 +142,26 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           <input
             type="number"
             className={`w-full bg-[#2d2d2d] rounded p-2 mt-1 ${
-              errors.duration ? "error-input" : ""
+              errors.duration ? "border-red-500" : ""
             }`}
             placeholder="Enter duration in days"
             value={duration}
             onChange={(e) => setDuration(e.target.value)}
             min="1"
           />
-          {errors.duration && (
-            <span className="error-message">{errors.duration}</span>
-          )}
+          <AnimatePresence>
+            {errors.duration && (
+              <motion.span
+                className="text-red-500 text-sm mt-1 block"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                {errors.duration}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </div>
 
         <div>
@@ -161,12 +178,14 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           />
         </div>
 
-        <button
+        <motion.button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded p-2 flex items-center justify-center gap-2"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded p-2 flex items-center justify-center gap-2 transition-colors duration-300 cursor-pointer"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           <FaPlus /> Add Medication
-        </button>
+        </motion.button>
       </form>
     </div>
   );
