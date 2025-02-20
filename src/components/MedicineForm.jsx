@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { FaPills, FaClock, FaCalendarAlt, FaPlus } from "react-icons/fa";
-import { animate } from "motion";
+import { motion } from "framer-motion";
 
 export function MedicineForm({ onSubmit, existingMedicines }) {
   const [medicine, setMedicine] = useState("");
@@ -9,19 +9,6 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
   const [startTime, setStartTime] = useState("08:00");
   const [errors, setErrors] = useState({});
   const formRef = useRef(null);
-
-  useEffect(() => {
-    if (formRef.current) {
-      animate(
-        formRef.current,
-        {
-          opacity: [0, 1],
-          transform: ["translateY(-20px)", "translateY(0)"],
-        },
-        { duration: 0.5 }
-      );
-    }
-  }, []);
 
   const validateForm = () => {
     const newErrors = {};
@@ -161,12 +148,14 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           />
         </div>
 
-        <button
+        <motion.button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded p-2 flex items-center justify-center gap-2"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded p-2 flex items-center justify-center gap-2 transition-colors duration-300"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           <FaPlus /> Add Medication
-        </button>
+        </motion.button>
       </form>
     </div>
   );
