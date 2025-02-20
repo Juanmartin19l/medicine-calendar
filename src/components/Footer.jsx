@@ -2,7 +2,7 @@ import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 export function Footer() {
   return (
-    <footer className="bg-gray-800 text-gray-400 py-6 mt-12">
+    <footer className="bg-gray-800 text-gray-400 py-6 mt-12 rounded-lg">
       <div className="container mx-auto text-center">
         <p className="mb-2">By Juan Martin Lavalle</p>
         <p className="mb-2">© 2025 Medicine Calendar. All rights reserved.</p>

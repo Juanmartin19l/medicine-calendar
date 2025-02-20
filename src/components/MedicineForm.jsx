@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { FaPills, FaClock, FaCalendarAlt, FaPlus } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function MedicineForm({ onSubmit, existingMedicines }) {
   const [medicine, setMedicine] = useState("");
@@ -83,15 +83,25 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           <input
             type="text"
             className={`w-full bg-[#2d2d2d] rounded p-2 mt-1 ${
-              errors.medicine ? "error-input" : ""
+              errors.medicine ? "border-red-500" : ""
             }`}
             placeholder="Enter medication name"
             value={medicine}
             onChange={(e) => setMedicine(e.target.value)}
           />
-          {errors.medicine && (
-            <span className="error-message">{errors.medicine}</span>
-          )}
+          <AnimatePresence>
+            {errors.medicine && (
+              <motion.span
+                className="text-red-500 text-sm mt-1 block"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                {errors.medicine}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </div>
 
         <div>
@@ -102,16 +112,26 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           <input
             type="number"
             className={`w-full bg-[#2d2d2d] rounded p-2 mt-1 ${
-              errors.interval ? "error-input" : ""
+              errors.interval ? "border-red-500" : ""
             }`}
             placeholder="Enter interval in hours"
             value={interval}
             onChange={(e) => setInterval(e.target.value)}
             min="1"
           />
-          {errors.interval && (
-            <span className="error-message">{errors.interval}</span>
-          )}
+          <AnimatePresence>
+            {errors.interval && (
+              <motion.span
+                className="text-red-500 text-sm mt-1 block"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                {errors.interval}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </div>
 
         <div>
@@ -122,16 +142,26 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           <input
             type="number"
             className={`w-full bg-[#2d2d2d] rounded p-2 mt-1 ${
-              errors.duration ? "error-input" : ""
+              errors.duration ? "border-red-500" : ""
             }`}
             placeholder="Enter duration in days"
             value={duration}
             onChange={(e) => setDuration(e.target.value)}
             min="1"
           />
-          {errors.duration && (
-            <span className="error-message">{errors.duration}</span>
-          )}
+          <AnimatePresence>
+            {errors.duration && (
+              <motion.span
+                className="text-red-500 text-sm mt-1 block"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                {errors.duration}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </div>
 
         <div>
