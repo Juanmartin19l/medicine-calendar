@@ -3,7 +3,7 @@ https://juanmartin19l.github.io/medicine-calendar/
 
 A modern and minimalist web application to manage medication schedules with reminders. Easily add medications, set dosage intervals, durations, and start times. The app automatically calculates reminders and allows you to export the schedule to your calendar as an `.ics` file. Built with **React**, **React Icons**, and **CSS**, it features a clean dark theme and a responsive grid layout for a seamless user experience.
 
-![image](https://github.com/user-attachments/assets/b88cab41-465f-4be9-acc6-159daa42de72)
+![image](https://github.com/user-attachments/assets/8a2dbcc8-4d5c-412f-b98f-09e9e833a0c1)
 *Preview image*
 
 ---
