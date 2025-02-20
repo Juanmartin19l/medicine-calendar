@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { MedicineForm } from "../components/MedicineForm";
 import { MedicineList } from "../components/MedicineList";
 import { exportToCalendar } from "../utils/CalendarExporter";
-import { FaCalendarAlt } from "react-icons/fa";
-import "./MedicinePage.css";
+import { Footer } from "../components/Footer";
+import { Export } from "../components/Export";
 
 export function MedicinePage() {
   const [medicines, setMedicines] = useState(() => {
@@ -33,18 +33,20 @@ export function MedicinePage() {
   };
 
   return (
-    <div className="medicine-page">
-      <h1>Medicine Calendar</h1>
-      <MedicineForm
-        onSubmit={handleAddMedicine}
-        existingMedicines={medicines}
-      />{" "}
-      <MedicineList medicines={medicines} onDelete={handleDeleteMedicine} />
-      {medicines.length > 0 && (
-        <button className="export" onClick={() => exportToCalendar(medicines)}>
-          <FaCalendarAlt /> Export to Calendar
-        </button>
-      )}
+    <div className="min-h-screen bg-[#222222] text-white p-8page">
+      <h1 className="text-5xl font-light text-center mb-12 pt-12">
+        Medicine Calendar
+      </h1>
+      <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <MedicineForm
+          onSubmit={handleAddMedicine}
+          existingMedicines={medicines}
+        />
+        <MedicineList medicines={medicines} onDelete={handleDeleteMedicine} />
+      </div>
+      <Export medicines={medicines} exportToCalendar={exportToCalendar} />
+
+      <Footer />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   font-family: "Nunito", serif;
   font-optical-sizing: auto;
@@ -13,4 +15,53 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Estilos específicos para el input de tipo time */
+input[type="time"] {
+  font-family: inherit; /* Hereda la fuente del contenedor */
+  font-size: 1rem; /* Asegura que tenga el mismo tamaño de fuente */
+}
+
+/* Ocultar el ícono de reloj predeterminado en inputs de tipo time */
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+/* Ocultar las flechas en inputs de tipo number en Chrome, Safari, Edge y Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Ocultar las flechas en inputs de tipo number en Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.error-message {
+  color: #ff4444;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: block;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2d2d2d;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #454545;
+  border-radius: 10px;
+  border: 3px solid #2d2d2d;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #6d6d6d;
 }
