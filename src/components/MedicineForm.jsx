@@ -70,6 +70,8 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
 
   return (
     <div className="space-y-4">
+      <h2 className="text-2xl mb-4 text-center">Medicine Form</h2>
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="flex items-center gap-2">

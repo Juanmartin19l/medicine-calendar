@@ -34,7 +34,7 @@ export function MedicinePage() {
 
   return (
     <div className="min-h-screen bg-[#222222] text-white p-8page">
-      <h1 className="text-5xl font-light text-center mb-12">
+      <h1 className="text-5xl font-light text-center mb-12 mt-12">
         Medicine Calendar
       </h1>
       <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
