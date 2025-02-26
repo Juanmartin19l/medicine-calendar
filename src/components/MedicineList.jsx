@@ -21,7 +21,7 @@ export function MedicineList({ medicines, onDelete }) {
         ) : (
           <motion.div
             key="list"
-            className={`grid gap-4 ${
+            className={`grid gap-3 ${
               medicines.length > 3 ? "max-h-96 overflow-y-auto" : ""
             }`}
             style={{ scrollbarGutter: "stable" }}

@@ -26,7 +26,7 @@ export function MedicinePage() {
   }, [medicines]);
 
   const handleAddMedicine = (newMedicine) => {
-    setMedicines((prev) => [...prev, newMedicine]);
+    setMedicines((prev) => [newMedicine, ...prev]);
   };
 
   const handleDeleteMedicine = (index) => {
