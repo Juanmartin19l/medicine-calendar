@@ -1,5 +1,5 @@
 import { createEvents } from "ics";
-import { uploadFile } from "./fileUploader";
+import { uploadFile, getFileUrl, downloadFile } from "./fileUploader";
 
 export async function exportToCalendar(medicines) {
   const events = medicines.flatMap((med) => {
@@ -131,7 +131,20 @@ ${durationText}
     const file = new File([blob], fileName, { type: "text/calendar" });
 
     try {
-      await uploadFile(file, "medicine-calendar", `calendars/${file.name}`);
+      const uploadData = await uploadFile(
+        file,
+        "medicine-calendar",
+        `calendars/${file.name}`
+      );
+      const fileUrl = await getFileUrl(
+        "medicine-calendar",
+        `calendars/${file.name}`
+      );
+      if (fileUrl) {
+        await downloadFile(fileUrl);
+      } else {
+        console.error("Error: File URL is undefined");
+      }
     } catch (uploadError) {
       console.error("Error uploading .ics file:", uploadError);
       return;
