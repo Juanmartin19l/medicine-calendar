@@ -142,7 +142,6 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
             placeholder="Enter interval in hours"
             value={interval}
             onChange={(e) => setInterval(e.target.value)}
-            min="1"
           />
           <AnimatePresence>
             {errors.interval && (
@@ -172,7 +171,6 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
             placeholder="Enter duration in days"
             value={duration}
             onChange={(e) => setDuration(e.target.value)}
-            min="1"
           />
           <AnimatePresence>
             {errors.duration && (
@@ -202,7 +200,9 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
             min={new Date(
-              new Date().getTime() - new Date().getTimezoneOffset() * 60000
+              new Date().getTime() -
+                new Date().getTimezoneOffset() * 60000 -
+                86400000
             )
               .toISOString()
               .slice(0, 16)}
@@ -215,6 +215,7 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
               .toISOString()
               .slice(0, 16)}
             required
+            onInvalid={(e) => e.preventDefault()}
           />
           <AnimatePresence>
             {errors.startTime && (
