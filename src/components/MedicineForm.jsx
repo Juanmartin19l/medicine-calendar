@@ -1,12 +1,15 @@
 import { useState, useRef } from "react";
 import { FaPills, FaClock, FaCalendarAlt, FaPlus } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, m } from "framer-motion";
 
 export function MedicineForm({ onSubmit, existingMedicines }) {
   const [medicine, setMedicine] = useState("");
   const [interval, setInterval] = useState("");
   const [duration, setDuration] = useState("");
-  const [startTime, setStartTime] = useState("08:00");
+  const [startTime, setStartTime] = useState(() => {
+    const now = new Date();
+    return now.toTimeString().slice(0, 5);
+  });
   const [errors, setErrors] = useState({});
   const formRef = useRef(null);
 
@@ -37,6 +40,18 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
       newErrors.medicine = "This medicine already exists";
     }
 
+    // Max length validation
+    if (duration > 31) {
+      newErrors.duration = "Duration must be less than 31 days";
+    }
+    if (interval > 72) {
+      newErrors.interval = "Interval must be less than 72 hours";
+    }
+
+    if (medicine.length > 50) {
+      newErrors.medicine = "Medicine name must be less than 50 characters";
+    }
+
     // Interval vs duration validation
     const intervalHours = parseInt(interval);
     const durationDays = parseInt(duration);
@@ -65,7 +80,8 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
       setMedicine("");
       setInterval("");
       setDuration("");
-      setStartTime("08:00");
+      const now = new Date();
+      setStartTime(now.toTimeString().slice(0, 5));
       setErrors({});
     }
   }
