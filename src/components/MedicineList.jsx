@@ -32,7 +32,7 @@ export function MedicineList({ medicines, onDelete }) {
               {medicines.map((med, index) => (
                 <motion.div
                   key={index}
-                  className="bg-[#444444] p-4 rounded"
+                  className="bg-[#363636] p-4 rounded"
                   initial={hasAnimations ? { opacity: 0 } : false}
                   animate={hasAnimations ? { opacity: 1 } : false}
                   exit={hasAnimations ? { opacity: 0 } : false}

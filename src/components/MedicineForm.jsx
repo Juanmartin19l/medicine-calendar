@@ -8,7 +8,11 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
   const [duration, setDuration] = useState("");
   const [startTime, setStartTime] = useState(() => {
     const now = new Date();
-    return now.toTimeString().slice(0, 5);
+    const timezoneOffset = now.getTimezoneOffset() * 60000;
+    const localISOTime = new Date(now - timezoneOffset)
+      .toISOString()
+      .slice(0, 16);
+    return localISOTime;
   });
   const [errors, setErrors] = useState({});
   const formRef = useRef(null);
@@ -60,6 +64,13 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
       }
     }
 
+    // Validación de fecha y hora
+    if (!startTime) {
+      newErrors.startTime = "Start time is required";
+    } else if (isNaN(Date.parse(startTime))) {
+      newErrors.startTime = "Invalid date and time format";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -72,14 +83,14 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
         name: medicine,
         interval: parseInt(interval),
         duration: parseInt(duration),
-        startTime: startTime,
+        startTime: new Date(startTime).toISOString(),
       };
       onSubmit(newMedicine);
       setMedicine("");
       setInterval("");
       setDuration("");
       const now = new Date();
-      setStartTime(now.toTimeString().slice(0, 5));
+      setStartTime(now.toISOString().slice(0, 16));
       setErrors({});
     }
   }
@@ -181,15 +192,43 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
         <div>
           <label className="flex items-center gap-2">
             <FaClock />
-            Start Time:
+            Start Date and Time:
           </label>
           <input
-            type="time"
-            className="w-full bg-[#2d2d2d] rounded p-2 mt-1"
+            type="datetime-local"
+            className={`w-full bg-[#2d2d2d] rounded p-2 mt-1 ${
+              errors.startTime ? "border-red-500" : ""
+            }`}
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
+            min={new Date(
+              new Date().getTime() - new Date().getTimezoneOffset() * 60000
+            )
+              .toISOString()
+              .slice(0, 16)}
+            max={new Date(
+              new Date(
+                new Date().setMonth(new Date().getMonth() + 1)
+              ).getTime() -
+                new Date().getTimezoneOffset() * 60000
+            )
+              .toISOString()
+              .slice(0, 16)}
             required
           />
+          <AnimatePresence>
+            {errors.startTime && (
+              <motion.span
+                className="text-red-500 text-sm mt-1 block"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                {errors.startTime}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </div>
 
         <motion.button
