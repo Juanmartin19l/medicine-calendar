@@ -1,6 +1,7 @@
 import { createEvents } from "ics";
+import { uploadFile } from "./fileUploader";
 
-export function exportToCalendar(medicines) {
+export async function exportToCalendar(medicines) {
   const events = medicines.flatMap((med) => {
     const startDate = new Date(med.startTime);
 
@@ -118,18 +119,22 @@ ${durationText}
     return eventsForMed;
   });
 
-  createEvents(events, (error, value) => {
+  createEvents(events, async (error, value) => {
     if (error) {
       console.error("Error generating .ics file:", error);
       return;
     }
 
     const blob = new Blob([value], { type: "text/calendar" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "medications.ics";
-    link.click();
-    URL.revokeObjectURL(url);
+    const timestamp = new Date().toISOString().replace(/[:.-]/g, "");
+    const fileName = `medications_${timestamp}.ics`;
+    const file = new File([blob], fileName, { type: "text/calendar" });
+
+    try {
+      await uploadFile(file, "medicine-calendar", `calendars/${file.name}`);
+    } catch (uploadError) {
+      console.error("Error uploading .ics file:", uploadError);
+      return;
+    }
   });
 }
