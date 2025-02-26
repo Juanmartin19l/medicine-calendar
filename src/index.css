@@ -5,46 +5,66 @@
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+  background-color: #222222;
 }
 
-/* Estilos específicos para el input de tipo time */
+/* Custom styles for time input */
 input[type="time"] {
-  font-family: inherit; /* Hereda la fuente del contenedor */
-  font-size: 1rem; /* Asegura que tenga el mismo tamaño de fuente */
+  font-family: inherit;
+  font-size: 1rem;
 }
 
-/* Ocultar el ícono de reloj predeterminado en inputs de tipo time */
+/* Hide default time picker icon */
 input[type="time"]::-webkit-calendar-picker-indicator {
   display: none;
 }
 
-/* Ocultar las flechas en inputs de tipo number en Chrome, Safari, Edge y Opera */
+/* Hide number input spinners for Chrome, Safari, Edge and Opera */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Ocultar las flechas en inputs de tipo number en Firefox */
+/* Hide number input spinners for Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
 }
 
+/* Custom scrollbar styles */
+/* Width of the entire scrollbar */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 0.75rem; /* 12px for consistency */
 }
 
+/* Track/Background of the scrollbar */
 ::-webkit-scrollbar-track {
-  background: #2d2d2d;
-  border-radius: 10px;
+  background: var(--scrollbar-track-color, #2d2d2d);
+  border-radius: 0.625rem;
+  margin: 0.25rem 0;
 }
 
+/* The draggable scrolling element */
 ::-webkit-scrollbar-thumb {
-  background-color: #454545;
-  border-radius: 10px;
-  border: 3px solid #2d2d2d;
+  background-color: var(--scrollbar-thumb-color, #454545);
+  border-radius: 0.625rem;
+  border: 3px solid var(--scrollbar-track-color, #2d2d2d);
+  transition: background-color 0.2s ease-in-out;
 }
 
+/* Hover state for the thumb */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #6d6d6d;
+  background-color: var(--scrollbar-thumb-hover-color, #6d6d6d);
+}
+
+/* Active state for the thumb */
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--scrollbar-thumb-active-color, #808080);
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(
+    1
+  ); /* Invierte el color del icono (útil para cambiar a blanco) */
+  cursor: pointer;
 }

@@ -2,10 +2,7 @@ import { createEvents } from "ics";
 
 export function exportToCalendar(medicines) {
   const events = medicines.flatMap((med) => {
-    const startDate = new Date();
-    const [startHour, startMinute] = med.startTime.split(":").map(Number);
-
-    startDate.setHours(startHour, startMinute, 0, 0);
+    const startDate = new Date(med.startTime);
 
     const eventsForMed = [];
     const endDate = new Date(
@@ -73,7 +70,12 @@ ${durationText}
     // Si el intervalo es >= 24 horas, agregar una última toma al final
     if (med.interval >= 24) {
       const finalDoseTime = new Date(endDate);
-      finalDoseTime.setHours(startHour, startMinute, 0, 0);
+      finalDoseTime.setHours(
+        startDate.getHours(),
+        startDate.getMinutes(),
+        0,
+        0
+      );
 
       const finalEndHours = finalDoseTime.getHours() + 1;
       const finalEndMinutes = finalDoseTime.getMinutes();
