@@ -16,19 +16,29 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
   const validateForm = () => {
     const newErrors = {};
 
-    // Empty fields validation
+    // Fields validation
     if (!medicine.trim()) {
       newErrors.medicine = "Medicine name is required";
+    } else if (/[^a-zA-Z0-9 ]/.test(medicine)) {
+      newErrors.medicine = "Medicine name must not contain special characters";
+    } else if (medicine.length > 50) {
+      newErrors.medicine = "Medicine name must be less than 50 characters";
     }
+
     if (!interval) {
       newErrors.interval = "Interval is required";
-    } else if (parseInt(interval) <= 0) {
-      newErrors.interval = "Interval must be a positive number";
+    } else if (!Number.isInteger(Number(interval)) || parseInt(interval) <= 0) {
+      newErrors.interval = "Interval must be a positive integer";
+    } else if (parseInt(interval) > 72) {
+      newErrors.interval = "Interval must be less than 72 hours";
     }
+
     if (!duration) {
       newErrors.duration = "Duration is required";
-    } else if (parseInt(duration) <= 0) {
-      newErrors.duration = "Duration must be a positive number";
+    } else if (!Number.isInteger(Number(duration)) || parseInt(duration) <= 0) {
+      newErrors.duration = "Duration must be a positive integer";
+    } else if (parseInt(duration) > 31) {
+      newErrors.duration = "Duration must be less than 31 days";
     }
 
     // Duplicate name validation
@@ -38,18 +48,6 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
       )
     ) {
       newErrors.medicine = "This medicine already exists";
-    }
-
-    // Max length validation
-    if (duration > 31) {
-      newErrors.duration = "Duration must be less than 31 days";
-    }
-    if (interval > 72) {
-      newErrors.interval = "Interval must be less than 72 hours";
-    }
-
-    if (medicine.length > 50) {
-      newErrors.medicine = "Medicine name must be less than 50 characters";
     }
 
     // Interval vs duration validation

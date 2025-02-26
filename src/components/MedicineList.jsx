@@ -2,6 +2,8 @@ import { FaTrashAlt, FaPills, FaClock, FaCalendarAlt } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function MedicineList({ medicines, onDelete }) {
+  const hasAnimations = medicines.length <= 3;
+
   return (
     <div>
       <h2 className="text-2xl mb-4 text-center">Medicine List</h2>
@@ -22,7 +24,7 @@ export function MedicineList({ medicines, onDelete }) {
           <motion.div
             key="list"
             className={`grid gap-3 ${
-              medicines.length > 3 ? "max-h-96 overflow-y-auto" : ""
+              medicines.length > 2 ? "max-h-96 overflow-y-auto" : ""
             }`}
             style={{ scrollbarGutter: "stable" }}
           >
@@ -31,9 +33,9 @@ export function MedicineList({ medicines, onDelete }) {
                 <motion.div
                   key={index}
                   className="bg-[#444444] p-4 rounded"
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -50 }}
+                  initial={hasAnimations ? { opacity: 0 } : false}
+                  animate={hasAnimations ? { opacity: 1 } : false}
+                  exit={hasAnimations ? { opacity: 0 } : false}
                   transition={{ duration: 0.3 }}
                 >
                   <div className="flex justify-between items-start">
