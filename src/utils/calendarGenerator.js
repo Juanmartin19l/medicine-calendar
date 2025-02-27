@@ -27,12 +27,7 @@ export function generateCalendarEvents(medicines) {
 
       // Calculate end time (1 hour after start time)
       const endTime = new Date(currentTime.getTime());
-      endTime.setHours(endTime.getHours() + 1);
-
-      // Ensure end time doesn't go past midnight
-      if (endTime.getDate() !== currentTime.getDate()) {
-        endTime.setHours(23, 59, 59);
-      }
+      endTime.setHours(currentTime.getHours() + 1, currentTime.getMinutes());
 
       eventsForMed.push({
         start: [
@@ -65,17 +60,11 @@ ${durationText}
         calName: "Medicine Calendar",
         status: "CONFIRMED",
         busyStatus: "FREE",
-        // Add notifications/alarms (5 minutes before)
         alarms: [
           {
-            action: "DISPLAY",
-            description: `Reminder: Take ${med.name}`,
-            trigger: { minutes: 5, before: true },
-          },
-          {
-            action: "DISPLAY",
-            description: `Time to take ${med.name}`,
-            trigger: { minutes: 0, before: true },
+            action: "display",
+            description: "It's time for your medication!",
+            trigger: { minutes: 10, before: true },
           },
         ],
       });
@@ -102,12 +91,10 @@ ${durationText}
 
       // Calculate end time for final dose
       const finalEndTime = new Date(finalDoseTime.getTime());
-      finalEndTime.setHours(finalEndTime.getHours() + 1);
-
-      // Ensure end time doesn't go past midnight
-      if (finalEndTime.getDate() !== finalDoseTime.getDate()) {
-        finalEndTime.setHours(23, 59, 59);
-      }
+      finalEndTime.setHours(
+        finalDoseTime.getHours() + 1,
+        finalDoseTime.getMinutes()
+      );
 
       eventsForMed.push({
         start: [
@@ -144,17 +131,11 @@ ${durationText}
         calName: "Medicine Calendar",
         status: "CONFIRMED",
         busyStatus: "FREE",
-        // Add notifications/alarms (5 minutes before)
         alarms: [
           {
-            action: "DISPLAY",
-            description: `Reminder: Take ${med.name} (final dose)`,
-            trigger: { minutes: 5, before: true },
-          },
-          {
-            action: "DISPLAY",
-            description: `Time to take ${med.name} (final dose)`,
-            trigger: { minutes: 0, before: true },
+            action: "display",
+            description: "It's time for your medication!",
+            trigger: { minutes: 10, before: true },
           },
         ],
       });
@@ -184,9 +165,6 @@ export function createICSFile(events) {
         reject(new Error("Failed to generate ICS content"));
         return;
       }
-
-      // Log the first part of the value to debug
-      console.log("ICS Content (first 100 chars):", value.substring(0, 100));
 
       const blob = new Blob([value], { type: "text/calendar;charset=utf-8" });
       resolve(blob);
