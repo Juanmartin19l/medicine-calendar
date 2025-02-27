@@ -90,7 +90,11 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
       setInterval("");
       setDuration("");
       const now = new Date();
-      setStartTime(now.toISOString().slice(0, 16));
+      const timezoneOffset = now.getTimezoneOffset() * 60000;
+      const localISOTime = new Date(now - timezoneOffset)
+        .toISOString()
+        .slice(0, 16);
+      setStartTime(localISOTime);
       setErrors({});
     }
   }

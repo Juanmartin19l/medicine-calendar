@@ -64,7 +64,20 @@ ${durationText}
         productId: "medicine-calendar/ics",
         calName: "Medicine Calendar",
         status: "CONFIRMED",
-        busyStatus: "BUSY",
+        busyStatus: "FREE",
+        // Add notifications/alarms (5 minutes before)
+        alarms: [
+          {
+            action: "DISPLAY",
+            description: `Reminder: Take ${med.name}`,
+            trigger: { minutes: 5, before: true },
+          },
+          {
+            action: "DISPLAY",
+            description: `Time to take ${med.name}`,
+            trigger: { minutes: 0, before: true },
+          },
+        ],
       });
 
       // Move to next dosage time
@@ -130,7 +143,20 @@ ${durationText}
         productId: "medicine-calendar/ics",
         calName: "Medicine Calendar",
         status: "CONFIRMED",
-        busyStatus: "BUSY",
+        busyStatus: "FREE",
+        // Add notifications/alarms (5 minutes before)
+        alarms: [
+          {
+            action: "DISPLAY",
+            description: `Reminder: Take ${med.name} (final dose)`,
+            trigger: { minutes: 5, before: true },
+          },
+          {
+            action: "DISPLAY",
+            description: `Time to take ${med.name} (final dose)`,
+            trigger: { minutes: 0, before: true },
+          },
+        ],
       });
     }
 
@@ -138,6 +164,7 @@ ${durationText}
   });
 }
 
+// El resto del código se mantiene igual
 export function createICSFile(events) {
   return new Promise((resolve, reject) => {
     if (!events || events.length === 0) {

@@ -46,7 +46,6 @@ export function Export({ medicines }) {
 
       <div className="flex items-center mx-2">
         <span className="text-gray-400 px-3 hidden sm:block">or</span>
-        <div className="border-t border-gray-600 w-full sm:hidden my-4"></div>
       </div>
 
       <motion.button
