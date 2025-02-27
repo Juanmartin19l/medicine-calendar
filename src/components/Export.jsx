@@ -1,28 +1,12 @@
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaDownload } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { exportToCalendar } from "../utils/CalendarExporter";
-import { getLastUploadedFile, downloadFile } from "../utils/fileUploader";
-import { useState, useEffect } from "react";
+import {
+  exportToCalendar,
+  exportToLocalCalendar,
+} from "../utils/calendarExporter";
 
 export function Export({ medicines }) {
-  const [lastFile, setLastFile] = useState(null);
   const isDisabled = medicines.length === 0;
-
-  useEffect(() => {
-    async function fetchLastFile() {
-      try {
-        const file = await getLastUploadedFile(
-          "medicine-calendar",
-          "calendars"
-        );
-        setLastFile(file);
-      } catch (error) {
-        console.error("Error fetching last uploaded file:", error);
-      }
-    }
-
-    fetchLastFile();
-  }, []);
 
   const handleSubscribe = async () => {
     if (isDisabled) return;
@@ -31,6 +15,16 @@ export function Export({ medicines }) {
       await exportToCalendar(medicines);
     } catch (error) {
       console.error("Error during subscribe process:", error);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (isDisabled) return;
+
+    try {
+      await exportToLocalCalendar(medicines);
+    } catch (error) {
+      console.error("Error during download process:", error);
     }
   };
 
@@ -49,6 +43,21 @@ export function Export({ medicines }) {
       >
         <FaCalendarAlt /> Suscribirse al calendario
       </motion.button>
+
+      <motion.button
+        className={`px-6 py-2 rounded flex items-center gap-2 ${
+          isDisabled
+            ? "bg-gray-500 cursor-not-allowed"
+            : "bg-[#2196f3] hover:bg-[#0b7dda] cursor-pointer"
+        }`}
+        onClick={handleDownload}
+        disabled={isDisabled}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        <FaDownload /> Descargar calendario
+      </motion.button>
+
       <span className="text-sm mt-4 sm:mt-0 sm:ml-4">.ics file</span>
     </div>
   );
