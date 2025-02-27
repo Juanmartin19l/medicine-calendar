@@ -1,6 +1,12 @@
 import { useState, useRef } from "react";
-import { FaPills, FaClock, FaCalendarAlt, FaPlus } from "react-icons/fa";
-import { motion, AnimatePresence, m } from "framer-motion";
+import {
+  FaPills,
+  FaClock,
+  FaCalendarAlt,
+  FaPlus,
+  FaExclamationTriangle,
+} from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function MedicineForm({ onSubmit, existingMedicines }) {
   const [medicine, setMedicine] = useState("");
@@ -17,8 +23,15 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
   const [errors, setErrors] = useState({});
   const formRef = useRef(null);
 
+  const reachedMedicineLimit = existingMedicines?.length >= 10;
+
   const validateForm = () => {
     const newErrors = {};
+
+    if (reachedMedicineLimit) {
+      newErrors.limit = "Cannot add more than 10 medications";
+      return false;
+    }
 
     // Fields validation
     if (!medicine.trim()) {
@@ -64,7 +77,7 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
       }
     }
 
-    // Validación de fecha y hora
+    // Date and time validation
     if (!startTime) {
       newErrors.startTime = "Start time is required";
     } else if (isNaN(Date.parse(startTime))) {
@@ -102,6 +115,17 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
   return (
     <div className="space-y-4">
       <h2 className="text-2xl mb-4 text-center">Medicine Form</h2>
+
+      {reachedMedicineLimit && (
+        <motion.div
+          className="bg-yellow-500/20 border border-yellow-500 text-yellow-200 rounded-md p-3 mb-4 flex items-center gap-2"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <FaExclamationTriangle />
+          <span>You've reached the maximum limit of 10 medications.</span>
+        </motion.div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4" ref={formRef}>
         <div>
@@ -238,9 +262,14 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
 
         <motion.button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded mt-6 p-2 flex items-center justify-center gap-2 transition-colors duration-300 cursor-pointer"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          className={`w-full ${
+            reachedMedicineLimit
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+          } text-white rounded mt-6 p-2 flex items-center justify-center gap-2 transition-colors duration-300`}
+          whileHover={{ scale: reachedMedicineLimit ? 1 : 1.05 }}
+          whileTap={{ scale: reachedMedicineLimit ? 1 : 0.95 }}
+          disabled={reachedMedicineLimit}
         >
           <FaPlus /> Add Medication
         </motion.button>
