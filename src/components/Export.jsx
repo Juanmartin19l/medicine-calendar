@@ -41,8 +41,13 @@ export function Export({ medicines }) {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
-        <FaCalendarAlt /> Suscribirse al calendario
+        <FaCalendarAlt /> Subscribe to Calendar
       </motion.button>
+
+      <div className="flex items-center mx-2">
+        <span className="text-gray-400 px-3 hidden sm:block">or</span>
+        <div className="border-t border-gray-600 w-full sm:hidden my-4"></div>
+      </div>
 
       <motion.button
         className={`px-6 py-2 rounded flex items-center gap-2 ${
@@ -55,10 +60,10 @@ export function Export({ medicines }) {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
-        <FaDownload /> Descargar calendario
+        <FaDownload /> Download Calendar
       </motion.button>
 
-      <span className="text-sm mt-4 sm:mt-0 sm:ml-4">.ics file</span>
+      <span className="text-sm mt-4 sm:mt-0 sm:ml-4">.ics format</span>
     </div>
   );
 }

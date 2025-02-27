@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { MedicineForm } from "../components/MedicineForm";
 import { MedicineList } from "../components/MedicineList";
-import { exportToCalendar } from "../utils/CalendarExporter";
 import { Footer } from "../components/Footer";
 import { Export } from "../components/Export";
+import { clearFileCache } from "../utils/calendarExporter";
 
 export function MedicinePage() {
   const [medicines, setMedicines] = useState(() => {
@@ -19,6 +19,8 @@ export function MedicinePage() {
   useEffect(() => {
     try {
       localStorage.setItem("medicines", JSON.stringify(medicines));
+      // Clear file cache whenever medicines change
+      clearFileCache();
       console.log("Data saved:", medicines);
     } catch (error) {
       console.error("Error saving data:", error);
@@ -67,7 +69,7 @@ export function MedicinePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <Export medicines={medicines} exportToCalendar={exportToCalendar} />
+          <Export medicines={medicines} />
         </motion.div>
       </div>
       <Footer />

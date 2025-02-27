@@ -25,9 +25,14 @@ export function generateCalendarEvents(medicines) {
           ? `📆 Treatment day: ${dayCount} of ${med.duration}`
           : `📆 Total duration: ${med.duration} day`;
 
-      const endHours = Math.min(currentTime.getHours() + 1, 23);
-      const endMinutes =
-        currentTime.getHours() + 1 > 23 ? 59 : currentTime.getMinutes();
+      // Calculate end time (1 hour after start time)
+      const endTime = new Date(currentTime.getTime());
+      endTime.setHours(endTime.getHours() + 1);
+
+      // Ensure end time doesn't go past midnight
+      if (endTime.getDate() !== currentTime.getDate()) {
+        endTime.setHours(23, 59, 59);
+      }
 
       eventsForMed.push({
         start: [
@@ -38,11 +43,11 @@ export function generateCalendarEvents(medicines) {
           currentTime.getMinutes(),
         ],
         end: [
-          currentTime.getFullYear(),
-          currentTime.getMonth() + 1,
-          currentTime.getDate(),
-          endHours,
-          endMinutes,
+          endTime.getFullYear(),
+          endTime.getMonth() + 1,
+          endTime.getDate(),
+          endTime.getHours(),
+          endTime.getMinutes(),
         ],
         title: `💊 ${med.name} - every ${med.interval}h`,
         description: `📅 Date: ${eventDate}
@@ -55,16 +60,24 @@ export function generateCalendarEvents(medicines) {
 ⏳ Interval: Every ${med.interval} hours
 ${durationText}
 ✅ Remember to take it on time.`,
+        // Add these required fields for valid iCalendar events
+        productId: "medicine-calendar/ics",
+        calName: "Medicine Calendar",
+        status: "CONFIRMED",
+        busyStatus: "BUSY",
       });
 
+      // Move to next dosage time
       currentTime.setHours(currentTime.getHours() + med.interval);
 
+      // Check if we've moved to a new day
       if (currentTime.getDate() !== previousDay) {
         dayCount++;
         previousDay = currentTime.getDate();
       }
     }
 
+    // Add a final dose for medications with interval >= 24 hours
     if (med.interval >= 24) {
       const finalDoseTime = new Date(endDate);
       finalDoseTime.setHours(
@@ -74,9 +87,14 @@ ${durationText}
         0
       );
 
-      const endHours = Math.min(finalDoseTime.getHours() + 1, 23);
-      const endMinutes =
-        finalDoseTime.getHours() + 1 > 23 ? 59 : finalDoseTime.getMinutes();
+      // Calculate end time for final dose
+      const finalEndTime = new Date(finalDoseTime.getTime());
+      finalEndTime.setHours(finalEndTime.getHours() + 1);
+
+      // Ensure end time doesn't go past midnight
+      if (finalEndTime.getDate() !== finalDoseTime.getDate()) {
+        finalEndTime.setHours(23, 59, 59);
+      }
 
       eventsForMed.push({
         start: [
@@ -87,11 +105,11 @@ ${durationText}
           finalDoseTime.getMinutes(),
         ],
         end: [
-          finalDoseTime.getFullYear(),
-          finalDoseTime.getMonth() + 1,
-          finalDoseTime.getDate(),
-          endHours,
-          endMinutes,
+          finalEndTime.getFullYear(),
+          finalEndTime.getMonth() + 1,
+          finalEndTime.getDate(),
+          finalEndTime.getHours(),
+          finalEndTime.getMinutes(),
         ],
         title: `💊 ${med.name} - Final Dose`,
         description: `📅 Date: ${finalDoseTime.toLocaleDateString("en-US", {
@@ -108,6 +126,11 @@ ${durationText}
 💊 Medication: ${med.name}
 ⏳ Final scheduled dose.
 ✅ Ensure you complete your treatment.`,
+        // Add these required fields for valid iCalendar events
+        productId: "medicine-calendar/ics",
+        calName: "Medicine Calendar",
+        status: "CONFIRMED",
+        busyStatus: "BUSY",
       });
     }
 
@@ -117,6 +140,11 @@ ${durationText}
 
 export function createICSFile(events) {
   return new Promise((resolve, reject) => {
+    if (!events || events.length === 0) {
+      reject(new Error("No events provided for calendar"));
+      return;
+    }
+
     createEvents(events, (error, value) => {
       if (error) {
         console.error("Error generating .ics file:", error);
@@ -124,7 +152,16 @@ export function createICSFile(events) {
         return;
       }
 
-      const blob = new Blob([value], { type: "text/calendar" });
+      if (!value) {
+        console.error("No ICS content generated");
+        reject(new Error("Failed to generate ICS content"));
+        return;
+      }
+
+      // Log the first part of the value to debug
+      console.log("ICS Content (first 100 chars):", value.substring(0, 100));
+
+      const blob = new Blob([value], { type: "text/calendar;charset=utf-8" });
       resolve(blob);
     });
   });
@@ -146,4 +183,33 @@ export function downloadICSFile(blob, fileName) {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }, 100);
+}
+
+/**
+ * Generates a hash from medicines array to detect changes
+ * @param {Array} medicines - List of medicines
+ * @returns {string} Hash value
+ */
+export function getMedicinesHash(medicines) {
+  // Create a string representation to hash
+  const stringified = JSON.stringify(
+    medicines.map((med) => ({
+      name: med.name,
+      interval: med.interval,
+      duration: med.duration,
+      startTime: med.startTime,
+    }))
+  );
+
+  // Simple hash function for string
+  let hash = 0;
+  if (stringified.length === 0) return hash.toString();
+
+  for (let i = 0; i < stringified.length; i++) {
+    const char = stringified.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+
+  return hash.toString();
 }
