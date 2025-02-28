@@ -79,8 +79,8 @@ ${durationText}
       }
     }
 
-    // Add a final dose for medications with interval >= 24 hours
-    if (med.interval >= 24) {
+    // Add a final dose for medications with interval > 24 hours
+    if (med.interval > 24) {
       const finalDoseTime = new Date(endDate);
       finalDoseTime.setHours(
         startDate.getHours(),

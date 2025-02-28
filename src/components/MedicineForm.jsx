@@ -46,8 +46,14 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
       newErrors.interval = "Interval is required";
     } else if (!Number.isInteger(Number(interval)) || parseInt(interval) <= 0) {
       newErrors.interval = "Interval must be a positive integer";
-    } else if (parseInt(interval) > 72) {
-      newErrors.interval = "Interval must be less than 72 hours";
+    } else {
+      const validIntervals = [...Array(24).keys()]
+        .map((n) => n + 1)
+        .concat([48, 72]);
+      if (!validIntervals.includes(parseInt(interval))) {
+        newErrors.interval =
+          "Interval must be a number between 1-24, 48, or 72 hours";
+      }
     }
 
     if (!duration) {
@@ -167,7 +173,7 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
             className={`w-full bg-[#2d2d2d] rounded p-2 mt-1 ${
               errors.interval ? "border-red-500" : ""
             }`}
-            placeholder="Enter interval in hours"
+            placeholder="Enter interval in hours (1-24, 48, 72)"
             value={interval}
             onChange={(e) => setInterval(e.target.value)}
           />
