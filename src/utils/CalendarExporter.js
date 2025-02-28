@@ -1,135 +1,156 @@
-import { createEvents } from "ics";
+import {
+  generateCalendarEvents,
+  createICSFile,
+  generateFileName,
+  getMedicinesHash,
+} from "./calendarGenerator";
+import { uploadFile, getFileUrl, downloadFile } from "./supabaseStorage";
 
-export function exportToCalendar(medicines) {
-  const events = medicines.flatMap((med) => {
-    const startDate = new Date(med.startTime);
+// Cache for storing the last uploaded file info
+let fileCache = {
+  medicinesHash: null,
+  fileUrl: null,
+  fileName: null,
+};
 
-    const eventsForMed = [];
-    const endDate = new Date(
-      startDate.getTime() + med.duration * 24 * 60 * 60 * 1000
-    );
-
-    let currentTime = new Date(startDate);
-    let dayCount = 1;
-
-    while (currentTime < endDate) {
-      const eventDate = currentTime.toLocaleDateString("en-US", {
-        weekday: "long",
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      });
-
-      let durationText =
-        med.duration > 1
-          ? `📆 Treatment day: ${dayCount} of ${med.duration}`
-          : `📆 Total duration: ${med.duration} day`;
-
-      const endHours = currentTime.getHours() + 1;
-      const endMinutes = currentTime.getMinutes();
-      const adjustedEndHours = endHours > 23 ? 23 : endHours;
-      const adjustedEndMinutes = endHours > 23 ? 59 : endMinutes;
-
-      eventsForMed.push({
-        start: [
-          currentTime.getFullYear(),
-          currentTime.getMonth() + 1,
-          currentTime.getDate(),
-          currentTime.getHours(),
-          currentTime.getMinutes(),
-        ],
-        end: [
-          currentTime.getFullYear(),
-          currentTime.getMonth() + 1,
-          currentTime.getDate(),
-          adjustedEndHours,
-          adjustedEndMinutes,
-        ],
-        title: `💊 ${med.name} - every ${med.interval}h`,
-        description: `📅 Date: ${eventDate}
-⏰ Time: ${currentTime.toLocaleTimeString("en-GB", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        })}
-💊 Medication: ${med.name}
-⏳ Interval: Every ${med.interval} hours
-${durationText}
-✅ Remember to take it on time.`,
-      });
-
-      currentTime.setHours(currentTime.getHours() + med.interval);
-
-      if (
-        currentTime.getDate() !== eventsForMed[eventsForMed.length - 1].start[2]
-      ) {
-        dayCount++;
-      }
+/**
+ * Exports calendar to Supabase, using cached version if medicines haven't changed
+ * @param {Array} medicines - List of medicines with their schedules
+ * @returns {Promise<void>}
+ */
+export async function exportToCalendar(medicines) {
+  try {
+    if (!medicines || medicines.length === 0) {
+      throw new Error("No medicines provided for calendar export");
     }
 
-    // Si el intervalo es >= 24 horas, agregar una última toma al final
-    if (med.interval >= 24) {
-      const finalDoseTime = new Date(endDate);
-      finalDoseTime.setHours(
-        startDate.getHours(),
-        startDate.getMinutes(),
-        0,
-        0
-      );
+    // Generate a hash of the medicines array to detect changes
+    const currentHash = getMedicinesHash(medicines);
 
-      const finalEndHours = finalDoseTime.getHours() + 1;
-      const finalEndMinutes = finalDoseTime.getMinutes();
-      const adjustedFinalEndHours = finalEndHours > 23 ? 23 : finalEndHours;
-      const adjustedFinalEndMinutes = finalEndHours > 23 ? 59 : finalEndMinutes;
-
-      eventsForMed.push({
-        start: [
-          finalDoseTime.getFullYear(),
-          finalDoseTime.getMonth() + 1,
-          finalDoseTime.getDate(),
-          finalDoseTime.getHours(),
-          finalDoseTime.getMinutes(),
-        ],
-        end: [
-          finalDoseTime.getFullYear(),
-          finalDoseTime.getMonth() + 1,
-          finalDoseTime.getDate(),
-          adjustedFinalEndHours,
-          adjustedFinalEndMinutes,
-        ],
-        title: `💊 ${med.name} - Final Dose`,
-        description: `📅 Date: ${finalDoseTime.toLocaleDateString("en-US", {
-          weekday: "long",
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
-        })}
-⏰ Time: ${finalDoseTime.toLocaleTimeString("en-GB", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        })}
-💊 Medication: ${med.name}
-⏳ Final scheduled dose.
-✅ Ensure you complete your treatment.`,
-      });
-    }
-
-    return eventsForMed;
-  });
-
-  createEvents(events, (error, value) => {
-    if (error) {
-      console.error("Error generating .ics file:", error);
+    // If medicines haven't changed and we have a cached URL, use it
+    if (currentHash === fileCache.medicinesHash && fileCache.fileUrl) {
+      console.log("Using cached calendar file - no changes detected");
+      await downloadFile(fileCache.fileUrl);
       return;
     }
 
-    const blob = new Blob([value], { type: "text/calendar" });
+    // Generate calendar events
+    const events = generateCalendarEvents(medicines);
+
+    if (!events || events.length === 0) {
+      throw new Error("No calendar events generated from medicines");
+    }
+
+    console.log(`Generated ${events.length} calendar events`);
+
+    // Create ICS file
+    const blob = await createICSFile(events);
+
+    if (!blob || blob.size === 0) {
+      throw new Error("Generated ICS file is empty");
+    }
+
+    console.log(
+      `Local ICS file created with size: ${(blob.size / 1024).toFixed(2)} KB`
+    );
+    // Generate filename
+    const fileName = generateFileName();
+
+    // Create File object
+    const file = new File([blob], fileName, { type: "text/calendar" });
+
+    // Upload file to Supabase
+    const uploadData = await uploadFile(
+      file,
+      "medicine-calendar",
+      `calendars/${file.name}`
+    );
+
+    // Get public URL
+    const fileUrl = await getFileUrl(
+      "medicine-calendar",
+      `calendars/${file.name}`
+    );
+
+    // Download file using the URL
+    if (fileUrl) {
+      await downloadFile(fileUrl);
+
+      // Update the cache
+      fileCache = {
+        medicinesHash: currentHash,
+        fileUrl: fileUrl,
+        fileName: fileName,
+      };
+    } else {
+      console.error("Error: File URL is undefined");
+    }
+  } catch (error) {
+    console.error("Error exporting calendar:", error);
+    throw error;
+  }
+}
+
+/**
+ * Exports medicines to a calendar and downloads it locally
+ * @param {Array} medicines - List of medicines with their schedules
+ * @returns {Promise<void>}
+ */
+export async function exportToLocalCalendar(medicines) {
+  try {
+    if (!medicines || medicines.length === 0) {
+      throw new Error("No medicines provided for local calendar export");
+    }
+
+    // Generate calendar events
+    const events = generateCalendarEvents(medicines);
+
+    if (!events || events.length === 0) {
+      throw new Error("No calendar events generated from medicines");
+    }
+
+    console.log(
+      `Generated ${events.length} calendar events for local download`
+    );
+
+    // Create ICS file
+    const blob = await createICSFile(events);
+
+    if (!blob || blob.size === 0) {
+      throw new Error("Generated ICS file is empty");
+    }
+
+    console.log(
+      `Local ICS file created with size: ${(blob.size / 1024).toFixed(2)} KB`
+    );
+
+    // Generate filename
+    const fileName = generateFileName();
+
+    // Download locally without uploading to Supabase
     const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "medications.ics";
-    link.click();
-    URL.revokeObjectURL(url);
-  });
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+  } catch (error) {
+    console.error("Error during local calendar export:", error);
+    throw error;
+  }
+}
+
+/**
+ * Clears the file cache, forcing a new upload on next export
+ */
+export function clearFileCache() {
+  fileCache = {
+    medicinesHash: null,
+    fileUrl: null,
+    fileName: null,
+  };
 }
