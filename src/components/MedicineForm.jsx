@@ -62,6 +62,18 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
       newErrors.duration = "Duration must be a positive integer";
     } else if (parseInt(duration) > 31) {
       newErrors.duration = "Duration must be less than 31 days";
+    } else {
+      // Check for interval-duration compatibility
+      const intervalValue = parseInt(interval);
+      const durationValue = parseInt(duration);
+
+      if (intervalValue === 48 && durationValue % 2 !== 0) {
+        newErrors.duration =
+          "When interval is 48 hours, duration must be a multiple of 2 days";
+      } else if (intervalValue === 72 && durationValue % 3 !== 0) {
+        newErrors.duration =
+          "When interval is 72 hours, duration must be a multiple of 3 days";
+      }
     }
 
     // Duplicate name validation

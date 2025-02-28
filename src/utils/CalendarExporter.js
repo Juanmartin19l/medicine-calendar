@@ -119,7 +119,9 @@ export async function exportToLocalCalendar(medicines) {
       throw new Error("Generated ICS file is empty");
     }
 
-    console.log(`Local ICS file created with size: ${blob.size} bytes`);
+    console.log(
+      `Local ICS file created with size: ${(blob.size / 1024).toFixed(2)} KB`
+    );
 
     // Generate filename
     const fileName = generateFileName();
