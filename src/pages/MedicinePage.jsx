@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { MedicineForm } from "../components/MedicineForm";
 import { MedicineList } from "../components/MedicineList";
 import { Footer } from "../components/Footer";
-import { Export } from "../components/Export";
+import { Export } from "../components/CalendarExport";
 import { clearFileCache } from "../utils/calendarExporter";
 
 export function MedicinePage() {

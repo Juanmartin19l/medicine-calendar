@@ -34,7 +34,7 @@ export function Export({ medicines }) {
         className={`px-6 py-2 rounded flex items-center gap-2 ${
           isDisabled
             ? "bg-gray-500 cursor-not-allowed"
-            : "bg-[#4caf50] hover:bg-[#45a049] cursor-pointer"
+            : "bg-green-600 hover:bg-green-700 cursor-pointer"
         }`}
         onClick={handleSubscribe}
         disabled={isDisabled}
@@ -52,7 +52,7 @@ export function Export({ medicines }) {
         className={`px-6 py-2 rounded flex items-center gap-2 ${
           isDisabled
             ? "bg-gray-500 cursor-not-allowed"
-            : "bg-[#2196f3] hover:bg-[#0b7dda] cursor-pointer"
+            : "bg-blue-500 hover:bg-blue-600 cursor-pointer"
         }`}
         onClick={handleDownload}
         disabled={isDisabled}
