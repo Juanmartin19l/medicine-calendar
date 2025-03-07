@@ -4,6 +4,7 @@ import { MedicineForm } from "../components/MedicineForm";
 import { MedicineList } from "../components/MedicineList";
 import { Footer } from "../components/Footer";
 import { Export } from "../components/CalendarExport";
+import { Header } from "../components/Header";
 import { clearFileCache } from "../utils/calendarExporter";
 
 export function MedicinePage() {
@@ -37,10 +38,25 @@ export function MedicinePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#222222] text-white">
-      <div className="flex-grow">
-        <h1 className="text-5xl font-light text-center mb-12 pt-8">
-          Medicine Calendar
-        </h1>
+      <Header />
+      <div className="flex-grow pt-24">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-8 px-4"
+        >
+          <h1 className="text-4xl font-light mb-4">
+            <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              Medicine Calendar
+            </span>
+          </h1>
+          <p className="text-gray-300 max-w-3xl mx-auto">
+            Track your medication schedule seamlessly. Add your prescriptions,
+            set frequencies, and export your calendar to stay on top of your
+            health regimen. Never miss a dose again.
+          </p>
+        </motion.div>
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto p-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -68,6 +84,7 @@ export function MedicinePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
+          className="max-w-6xl mx-auto px-8 pb-12"
         >
           <Export medicines={medicines} />
         </motion.div>
