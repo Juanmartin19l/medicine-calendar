@@ -61,11 +61,7 @@ export function SectionContainer({
           <div className={`${iconColors[color]} text-xl`}>{icon}</div>
         </div>
         <h2 className="text-2xl font-semibold">
-          <span
-            className={`bg-gradient-to-r ${textColors[color]} bg-clip-text text-transparent`}
-          >
-            {title}
-          </span>
+          <span className={`${iconColors[color]}`}>{title}</span>
         </h2>
       </div>
 
