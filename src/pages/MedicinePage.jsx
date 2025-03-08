@@ -51,7 +51,7 @@ export function MedicinePage() {
         keywords="medicine tracker, medication schedule, medicine export, health management"
         ogTitle="Medicine Calendar - Track Your Medications"
         ogDescription="Never miss a dose again with our medication tracking calendar."
-        canonical="https://juanmartin19l.github.io/medicine-calendar/medicines"
+        canonical="https://juanmartin19l.github.io/medicine-calendar/"
       />
 
       <Header />
