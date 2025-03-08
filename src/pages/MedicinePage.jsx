@@ -81,9 +81,6 @@ export function MedicinePage() {
               />
             </SectionContainer>
 
-            {/* Divider for mobile */}
-            <div className="border-t border-gray-700/50 my-8 md:hidden"></div>
-
             {/* Medicine List Section */}
             <SectionContainer
               id="your-medications"
