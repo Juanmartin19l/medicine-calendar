@@ -6,10 +6,42 @@
   <link rel="icon" type="image/svg+xml" href="/medicine-calendar/pill.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Medicine Calendar</title>
+
+  <!-- Script para manejar redirecciones en GitHub Pages -->
+  <script type="text/javascript">
+    // Manejo de la redirección de GitHub Pages para SPA
+    (function (l) {
+      if (l.search[1] === '/') {
+        var decoded = l.search.slice(1).split('&').map(function (s) {
+          return s.replace(/~and~/g, '&')
+        }).join('?');
+        window.history.replaceState(null, null,
+          l.pathname.slice(0, -1) + decoded + l.hash
+        );
+      }
+    }(window.location))
+  </script>
+
+  <!-- Preconexión a recursos externos -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
     rel="stylesheet">
+
+  <!-- Meta tags para SEO -->
+  <meta name="description"
+    content="Medicine Calendar helps you track your medication schedule, set reminders, and export to your calendar app.">
+  <meta name="keywords" content="medicine tracker, medication schedule, medical calendar, health reminder">
+
+  <!-- Open Graph tags para compartir en redes sociales -->
+  <meta property="og:title" content="Medicine Calendar - Track Your Medication Schedule">
+  <meta property="og:description"
+    content="Never miss a dose again. Medicine Calendar helps you track your medication schedule easily.">
+  <meta property="og:url" content="https://juanmartin19l.github.io/medicine-calendar/">
+  <meta property="og:type" content="website">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://juanmartin19l.github.io/medicine-calendar/">
   <script type="module" crossorigin src="/medicine-calendar/assets/index-CbCmUDQX.js"></script>
   <link rel="stylesheet" crossorigin href="/medicine-calendar/assets/index-Cj0i2MCO.css">
 </head>
