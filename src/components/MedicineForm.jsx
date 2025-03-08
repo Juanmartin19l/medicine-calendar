@@ -95,28 +95,20 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
       setStartTime(localISOTime);
       setErrors({});
 
-      // Only scroll to top of form, notification is handled by parent
-      if (formRef.current) {
-        formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      // Show success message
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 3000);
     }
   }
 
   return (
-    <div className="space-y-4 relative">
+    <div className="space-y-4">
       {reachedMedicineLimit && <LimitWarning />}
 
       {errors.limit && (
-        <motion.div
-          className="bg-gradient-to-r from-red-900/40 to-red-800/40 border border-red-500/50 text-red-200 px-4 py-3 rounded-md mb-4 flex items-center gap-2"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <div className="bg-red-500/20 p-1.5 rounded-full">
-            <FaInfoCircle className="text-red-400" />
-          </div>
-          <span>{errors.limit}</span>
-        </motion.div>
+        <div className="bg-red-900/40 border border-red-500 text-red-200 px-4 py-3 rounded-md mb-4">
+          {errors.limit}
+        </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6" ref={formRef}>
@@ -131,7 +123,7 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           error={errors.medicine}
         />
 
-        {/* Interval Field with Presets */}
+        {/* Interval Field with Presets - Using a custom implementation instead of FormField */}
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <label
@@ -141,75 +133,36 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
               Dosage Interval (hours)
             </label>
             <div className="relative" ref={intervalRef}>
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <FaInfoCircle
-                  className="text-gray-400 hover:text-blue-400 cursor-pointer transition-colors duration-200"
-                  onClick={() => setShowIntervalTooltip(!showIntervalTooltip)}
-                />
-              </motion.div>
-
-              <AnimatePresence>
-                {showIntervalTooltip && (
-                  <motion.div
-                    className="absolute z-10 bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-md shadow-lg text-xs w-64 right-0 mt-2 border border-gray-700"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <h5 className="font-medium text-blue-400 mb-2">
-                      Common intervals:
-                    </h5>
-                    <ul className="space-y-2">
-                      <li className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
-                        <span className="font-medium">4 hours:</span> For
-                        medications needed frequently
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
-                        <span className="font-medium">6-8 hours:</span> Common
-                        for antibiotics
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
-                        <span className="font-medium">12-24 hours:</span> For
-                        daily medications
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
-                        <span className="font-medium">48-72 hours:</span> For
-                        less frequent treatments
-                      </li>
-                    </ul>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <FaInfoCircle
+                className="text-gray-400 hover:text-blue-400 cursor-pointer"
+                onClick={() => setShowIntervalTooltip(!showIntervalTooltip)}
+              />
+              {showIntervalTooltip && (
+                <div className="absolute z-10 bg-gray-800 p-3 rounded-md shadow-lg text-xs w-56 right-0 mt-2">
+                  <p>Common intervals:</p>
+                  <ul className="list-disc pl-4 mt-1">
+                    <li>4 hours: For medications needed frequently</li>
+                    <li>6-8 hours: Common for antibiotics</li>
+                    <li>12-24 hours: For daily medications</li>
+                    <li>48-72 hours: For less frequent treatments</li>
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
-
           <div className="flex items-center">
             <div className="flex-1">
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <FaClock
-                    className={`${
-                      errors.interval ? "text-red-400" : "text-gray-400"
-                    } transition-colors duration-200`}
-                  />
+                  <FaClock className="text-gray-400" />
                 </span>
                 <input
                   type="number"
                   id="interval"
                   placeholder="Enter interval in hours"
                   className={`w-full pl-10 pr-3 py-2 rounded-md bg-[#333] border ${
-                    errors.interval
-                      ? "border-red-500 ring-1 ring-red-500/50"
-                      : "border-gray-600"
-                  } focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 transition-all duration-200`}
+                    errors.interval ? "border-red-500" : "border-gray-600"
+                  } focus:outline-none focus:border-blue-500`}
                   value={interval}
                   onChange={(e) => setInterval(e.target.value)}
                   min="1"
@@ -219,23 +172,11 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
               <AnimatePresence>
                 {errors.interval && (
                   <motion.p
-                    className="mt-1 text-sm text-red-500 flex items-center gap-1.5"
-                    initial={{ opacity: 0, y: -10, height: 0 }}
-                    animate={{ opacity: 1, y: 0, height: "auto" }}
-                    exit={{ opacity: 0, y: -10, height: 0 }}
+                    className="mt-1 text-sm text-red-500"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-3.5 w-3.5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
                     {errors.interval}
                   </motion.p>
                 )}
@@ -244,20 +185,21 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           </div>
 
           {/* Quick selection buttons for common intervals */}
-          <div className="flex flex-wrap gap-2 mt-3">
+          <div className="flex flex-wrap gap-2 mt-2">
             {commonIntervals.map((item) => (
-              <QuickSelectButton
+              <button
                 key={item.value}
-                label={item.label}
+                type="button"
+                className="text-xs bg-[#444] hover:bg-[#555] text-gray-300 py-1 px-2 rounded"
                 onClick={() => setInterval(item.value.toString())}
-                isActive={interval === item.value.toString()}
-                color="blue"
-              />
+              >
+                {item.label}
+              </button>
             ))}
           </div>
         </div>
 
-        {/* Duration Field with Presets */}
+        {/* Duration Field with Presets - Using a custom implementation instead of FormField */}
         <div className="space-y-2">
           <label
             htmlFor="duration"
@@ -267,21 +209,15 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           </label>
           <div className="relative">
             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <FaCalendarAlt
-                className={`${
-                  errors.duration ? "text-red-400" : "text-gray-400"
-                } transition-colors duration-200`}
-              />
+              <FaCalendarAlt className="text-gray-400" />
             </span>
             <input
               type="number"
               id="duration"
               placeholder="Enter duration in days"
               className={`w-full pl-10 pr-3 py-2 rounded-md bg-[#333] border ${
-                errors.duration
-                  ? "border-red-500 ring-1 ring-red-500/50"
-                  : "border-gray-600"
-              } focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 transition-all duration-200`}
+                errors.duration ? "border-red-500" : "border-gray-600"
+              } focus:outline-none focus:border-blue-500`}
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
               min="1"
@@ -291,38 +227,27 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           <AnimatePresence>
             {errors.duration && (
               <motion.p
-                className="text-sm text-red-500 flex items-center gap-1.5"
-                initial={{ opacity: 0, y: -10, height: 0 }}
-                animate={{ opacity: 1, y: 0, height: "auto" }}
-                exit={{ opacity: 0, y: -10, height: 0 }}
+                className="text-sm text-red-500"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-3.5 w-3.5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
                 {errors.duration}
               </motion.p>
             )}
           </AnimatePresence>
 
           {/* Quick selection buttons for common durations */}
-          <div className="flex flex-wrap gap-2 mt-3">
+          <div className="flex flex-wrap gap-2 mt-2">
             {commonDurations.map((item) => (
-              <QuickSelectButton
+              <button
                 key={item.value}
-                label={item.label}
+                type="button"
+                className="text-xs bg-[#444] hover:bg-[#555] text-gray-300 py-1 px-2 rounded"
                 onClick={() => setDuration(item.value.toString())}
-                isActive={duration === item.value.toString()}
-                color="purple"
-              />
+              >
+                {item.label}
+              </button>
             ))}
           </div>
         </div>
@@ -353,43 +278,10 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
         />
 
         {/* Submit Button */}
-        <div className="mt-8">
+        <div className="mt-6">
           <SubmitButton disabled={reachedMedicineLimit} />
         </div>
       </form>
     </div>
-  );
-}
-
-// Component for quick selection buttons
-function QuickSelectButton({ label, onClick, isActive, color }) {
-  const bgColors = {
-    blue: isActive
-      ? "bg-blue-500/30 border-blue-500/50"
-      : "bg-[#444] border-transparent hover:bg-[#555]",
-    purple: isActive
-      ? "bg-purple-500/30 border-purple-500/50"
-      : "bg-[#444] border-transparent hover:bg-[#555]",
-    green: isActive
-      ? "bg-green-500/30 border-green-500/50"
-      : "bg-[#444] border-transparent hover:bg-[#555]",
-  };
-
-  const textColors = {
-    blue: isActive ? "text-blue-300" : "text-gray-300",
-    purple: isActive ? "text-purple-300" : "text-gray-300",
-    green: isActive ? "text-green-300" : "text-gray-300",
-  };
-
-  return (
-    <motion.button
-      type="button"
-      className={`text-xs ${bgColors[color]} ${textColors[color]} py-1.5 px-3 rounded border transition-colors duration-200`}
-      onClick={onClick}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      {label}
-    </motion.button>
   );
 }

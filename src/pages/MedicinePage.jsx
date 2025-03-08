@@ -13,8 +13,6 @@ import {
   FaCalendarAlt,
   FaInfoCircle,
 } from "react-icons/fa";
-import { createPortal } from "react-dom";
-import { AnimatePresence } from "framer-motion";
 
 export function MedicinePage() {
   const [medicines, setMedicines] = useState(() => {
@@ -25,7 +23,6 @@ export function MedicinePage() {
       return [];
     }
   });
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   useEffect(() => {
     try {
@@ -39,8 +36,6 @@ export function MedicinePage() {
 
   const handleAddMedicine = (newMedicine) => {
     setMedicines((prev) => [newMedicine, ...prev]);
-    setShowSuccessMessage(true);
-    setTimeout(() => setShowSuccessMessage(false), 3000);
   };
 
   const handleDeleteMedicine = (index) => {
@@ -60,44 +55,6 @@ export function MedicinePage() {
       />
 
       <Header />
-
-      {/* Success Message */}
-      {createPortal(
-        <AnimatePresence>
-          {showSuccessMessage && (
-            <motion.div
-              className="fixed top-20 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-600 to-green-700 text-white p-4 rounded-lg shadow-lg z-50 border border-green-500/50"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="flex items-center gap-2">
-                <div className="bg-green-500/30 p-1.5 rounded-full">
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 13l4 4L19 7"
-                    ></path>
-                  </svg>
-                </div>
-                <span className="font-medium">
-                  Medication added successfully!
-                </span>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>,
-        document.body
-      )}
 
       <div className="flex-grow pt-24">
         {/* Page Header */}
