@@ -7,6 +7,7 @@ import { Footer } from "../components/Footer";
 import { Export } from "../components/CalendarExport";
 import { Header } from "../components/Header";
 import { clearFileCache } from "../utils/calendarExporter";
+import { FaPills, FaListAlt, FaCalendarAlt } from "react-icons/fa";
 
 export function MedicinePage() {
   const [medicines, setMedicines] = useState(() => {
@@ -38,7 +39,7 @@ export function MedicinePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#222222] text-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#1e1e24] to-[#222222] text-white">
       {/* SEO Optimization */}
       <Helmet>
         <title>Medicine Calendar - Track Your Medications</title>
@@ -86,14 +87,22 @@ export function MedicinePage() {
           <div className="grid md:grid-cols-2 gap-8 mb-16">
             {/* Medicine Form */}
             <motion.div
+              id="add-medication"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-[#2a2a2a] rounded-lg p-6 shadow-xl"
+              className="bg-gradient-to-br from-[#2a2a2a] to-[#252525] rounded-lg p-6 shadow-xl border border-blue-500/10"
             >
-              <h2 className="text-2xl font-semibold mb-6 text-center">
-                <span className="text-blue-400">Add New Medication</span>
-              </h2>
+              <div className="flex items-center justify-center mb-6">
+                <div className="bg-blue-500/20 p-2 rounded-full mr-3">
+                  <FaPills className="text-blue-400 text-xl" />
+                </div>
+                <h2 className="text-2xl font-semibold text-center">
+                  <span className="bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
+                    Add New Medication
+                  </span>
+                </h2>
+              </div>
               <MedicineForm
                 onSubmit={handleAddMedicine}
                 existingMedicines={medicines}
@@ -101,23 +110,26 @@ export function MedicinePage() {
             </motion.div>
 
             {/* Divider for mobile */}
-            <div className="border-t border-gray-600 my-8 md:hidden"></div>
+            <div className="border-t border-gray-700/50 my-8 md:hidden"></div>
 
             {/* Medicine List */}
             <motion.div
+              id="your-medications"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-[#2a2a2a] rounded-lg p-6 shadow-xl"
+              className="bg-gradient-to-br from-[#2a2a2a] to-[#252525] rounded-lg p-6 shadow-xl border border-purple-500/10"
             >
-              <h2 className="text-2xl font-semibold mb-6 text-center">
-                <span className="text-purple-400">Your Medications</span>
-                {medicines.length > 0 && (
-                  <span className="ml-2 bg-purple-500 text-white text-sm px-2 py-1 rounded-full">
-                    {medicines.length}
+              <div className="flex items-center justify-center mb-6">
+                <div className="bg-purple-500/20 p-2 rounded-full mr-3">
+                  <FaListAlt className="text-purple-400 text-xl" />
+                </div>
+                <h2 className="text-2xl font-semibold text-center">
+                  <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">
+                    Your Medications
                   </span>
-                )}
-              </h2>
+                </h2>
+              </div>
               <MedicineList
                 medicines={medicines}
                 onDelete={handleDeleteMedicine}
@@ -127,62 +139,25 @@ export function MedicinePage() {
 
           {/* Export Section */}
           <motion.div
+            id="export-calendar"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="bg-[#2a2a2a] rounded-lg p-6 shadow-xl"
+            className="bg-gradient-to-br from-[#2a2a2a] to-[#252525] rounded-lg p-6 shadow-xl border border-blue-500/10"
           >
-            <h2 className="text-2xl font-semibold mb-6 text-center">
-              <span className="text-green-400">Export Your Calendar</span>
-            </h2>
+            <div className="flex items-center justify-center mb-6">
+              <div className="bg-blue-500/20 p-2 rounded-full mr-3">
+                <FaCalendarAlt className="text-blue-400 text-xl" />
+              </div>
+              <h2 className="text-2xl font-semibold text-center">
+                <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  Export Your Calendar
+                </span>
+              </h2>
+            </div>
             <Export medicines={medicines} />
           </motion.div>
         </div>
-
-        {/* Tips Section */}
-        {medicines.length > 0 && (
-          <motion.section
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 py-10"
-          >
-            <div className="max-w-5xl mx-auto px-4">
-              <h2 className="text-2xl font-semibold mb-6 text-center">
-                Tips for Medication Adherence
-              </h2>
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="bg-[#2a2a2a] p-5 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-2 text-blue-400">
-                    Set a routine
-                  </h3>
-                  <p className="text-gray-300">
-                    Take your medications at the same time each day to build a
-                    consistent habit.
-                  </p>
-                </div>
-                <div className="bg-[#2a2a2a] p-5 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-2 text-blue-400">
-                    Use reminders
-                  </h3>
-                  <p className="text-gray-300">
-                    Export your calendar and set up notifications to alert you
-                    when it's time for a dose.
-                  </p>
-                </div>
-                <div className="bg-[#2a2a2a] p-5 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-2 text-blue-400">
-                    Store properly
-                  </h3>
-                  <p className="text-gray-300">
-                    Keep your medications in a place where you'll see them
-                    during your daily routine.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.section>
-        )}
       </div>
 
       <Footer />

@@ -288,10 +288,10 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
       <AnimatePresence>
         {showSuccessMessage && (
           <motion.div
-            className="fixed top-4 right-4 bg-green-600 text-white p-4 rounded-lg shadow-lg z-50"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 50 }}
+            className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white p-4 rounded-lg shadow-lg z-50"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
             <div className="flex items-center gap-2">
