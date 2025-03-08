@@ -14,13 +14,17 @@ export function Feature({ icon, title, description, delay }) {
       whileInView={{ y: 0, opacity: 1 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.5 }}
-      className="bg-gradient-to-br from-[#2a2a2a] to-[#252525] p-6 rounded-lg shadow-md border border-gray-800/40"
+      className="bg-gradient-to-br from-[#2a2a2a] to-[#252525] p-6 rounded-lg shadow-md border border-gray-800/40 max-w-full overflow-hidden"
     >
-      <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 w-16 h-16 flex items-center justify-center rounded-full mb-4 border border-gray-700/30">
-        <div className="text-4xl">{icon}</div>
+      <div className="flex flex-col items-center">
+        <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 w-16 h-16 flex items-center justify-center rounded-full mb-4 border border-gray-700/30">
+          <div className="text-4xl">{icon}</div>
+        </div>
+        <h3 className="text-xl font-semibold mb-2 text-blue-300 text-center">
+          {title}
+        </h3>
+        <p className="text-gray-400 text-center">{description}</p>
       </div>
-      <h3 className="text-xl font-semibold mb-2 text-blue-300">{title}</h3>
-      <p className="text-gray-400">{description}</p>
     </motion.div>
   );
 }

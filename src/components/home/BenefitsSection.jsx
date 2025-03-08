@@ -36,7 +36,7 @@ export function BenefitsSection() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="max-w-7xl mx-auto py-16 px-4"
+      className="max-w-7xl mx-auto py-16 px-4 overflow-hidden"
     >
       <h2 className="text-3xl font-bold text-center mb-12">
         <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
@@ -50,7 +50,7 @@ export function BenefitsSection() {
           whileInView={{ x: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.6 }}
-          className="bg-gradient-to-br from-[#2a2a2a] to-[#252525] p-6 rounded-lg border border-gray-800/50 shadow-lg"
+          className="bg-gradient-to-br from-[#2a2a2a] to-[#252525] p-6 rounded-lg border border-gray-800/50 shadow-lg max-w-full overflow-hidden"
         >
           <div className="space-y-4">
             {benefits.map((benefit, index) => (
@@ -68,7 +68,7 @@ export function BenefitsSection() {
           whileInView={{ x: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 0.6 }}
-          className="relative h-80 md:h-96 rounded-lg overflow-hidden shadow-xl"
+          className="relative h-80 md:h-96 rounded-lg overflow-hidden shadow-xl max-w-full overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
             <div className="bg-[#2a2a2a] rounded-lg p-6 m-4 w-full max-w-md border border-gray-800">

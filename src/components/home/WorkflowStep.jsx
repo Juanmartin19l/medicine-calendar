@@ -14,7 +14,7 @@ export function WorkflowStep({ icon, title, description, delay }) {
       whileInView={{ y: 0, opacity: 1 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.5 }}
-      className="text-center"
+      className="text-center max-w-full overflow-hidden"
     >
       <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 p-3 mb-4 border border-blue-500/30">
         <div className="text-3xl">{icon}</div>

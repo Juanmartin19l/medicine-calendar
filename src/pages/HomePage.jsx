@@ -26,7 +26,7 @@ function HomePage() {
 
       <Header />
 
-      <div className="flex-grow pt-24 px-4">
+      <div className="flex-grow pt-24 px-4 sm:px-6 lg:px-8">
         {/* Hero Section - Using PageHeader directly */}
         <PageHeader
           title="Never Miss a Dose Again"

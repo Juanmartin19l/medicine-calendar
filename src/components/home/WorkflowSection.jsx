@@ -37,7 +37,7 @@ export function WorkflowSection() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="max-w-7xl mx-auto py-16 px-4 bg-gradient-to-br from-[#2a2a2a] to-[#252525] rounded-lg shadow-xl border border-gray-800/50"
+      className="max-w-7xl mx-auto py-16 px-4 bg-gradient-to-br from-[#2a2a2a] to-[#252525] rounded-lg shadow-xl border border-gray-800/50 overflow-hidden"
     >
       <h2 className="text-3xl font-bold text-center mb-12">
         <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">

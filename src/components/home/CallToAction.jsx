@@ -11,7 +11,7 @@ export function CallToAction() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="max-w-3xl mx-auto text-center py-20"
+      className="max-w-3xl mx-auto text-center py-20 px-4 overflow-hidden"
     >
       <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
         Ready to take control of your medication schedule?
