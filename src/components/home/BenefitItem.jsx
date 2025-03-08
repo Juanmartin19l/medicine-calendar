@@ -5,7 +5,7 @@
  */
 export function BenefitItem({ title, description }) {
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3 max-w-full overflow-hidden">
       <div className="shrink-0 mt-1">
         <svg
           className="w-5 h-5 text-green-400"

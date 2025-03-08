@@ -56,7 +56,7 @@ function MedicinePage() {
 
       <Header />
 
-      <div className="flex-grow pt-24">
+      <div className="flex-grow pt-24 px-4">
         {/* Page Header */}
         <PageHeader
           title="Your Personal Health Assistant"

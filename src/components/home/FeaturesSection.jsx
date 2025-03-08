@@ -23,7 +23,7 @@ export function FeaturesSection() {
       delay: 0.3,
     },
     {
-      icon: <FaMobileAlt className="text-blue-400" />,
+      icon: <FaMobileAlt className="text-green-400" />,
       title: "Cross-Platform",
       description:
         "Works on any device with a browser. Access your medication schedule anywhere.",
@@ -37,7 +37,7 @@ export function FeaturesSection() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="max-w-7xl mx-auto py-16 px-4"
+      className="max-w-7xl mx-auto py-16 px-4 overflow-hidden"
     >
       <h2 className="text-3xl font-bold text-center mb-12">
         <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">

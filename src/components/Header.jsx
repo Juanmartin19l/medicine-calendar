@@ -34,11 +34,19 @@ export function Header() {
     setIsMobileMenuOpen(false);
   }, [location]);
 
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isMobileMenuOpen]);
+
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-500 ${
-        isScrolled
-          ? "bg-[#1a1a1a] backdrop-blur-sm shadow-lg shadow-blue-900/10 py-2"
+        isScrolled || isMobileMenuOpen
+          ? "bg-[#1a1a1a] py-2"
           : "bg-transparent py-4"
       }`}
     >
@@ -105,7 +113,11 @@ export function Header() {
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2.5 rounded-full bg-[#232323] text-gray-400 hover:text-white focus:outline-none"
+            className={`md:hidden p-2.5 rounded-full ${
+              isMobileMenuOpen
+                ? "bg-[#1a1a1a] text-white"
+                : "bg-[#232323] text-gray-400"
+            } hover:text-white focus:outline-none`}
             aria-label="Toggle menu"
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -128,14 +140,14 @@ export function Header() {
       </div>
 
       {/* Mobile Navigation with improved design */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait" initial={false}>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-[#151515] border-t border-gray-800/40 shadow-lg shadow-blue-900/5 overflow-hidden"
+            className="md:hidden bg-[#1a1a1a] shadow-lg shadow-blue-900/5 overflow-hidden"
           >
             <div className="px-3 pt-3 pb-4 space-y-1.5">
               <MobileNavLink to="/" active={location.pathname === "/"}>
@@ -153,18 +165,6 @@ export function Header() {
               >
                 <FaInfoCircle className="mr-3 text-green-400" /> About
               </MobileNavLink>
-
-              {/* Search bar for mobile */}
-              <div className="pt-2 pb-1 flex items-center">
-                <div className="relative w-full">
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    className="w-full bg-[#232323] text-gray-300 pl-10 pr-4 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-purple-500 border border-gray-700/50"
-                  />
-                  <FaSearch className="absolute left-3.5 top-3.5 text-gray-400" />
-                </div>
-              </div>
 
               {/* Try it button for mobile */}
               <div className="pt-3 mt-2 border-t border-gray-800/40">

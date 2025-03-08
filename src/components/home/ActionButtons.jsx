@@ -10,7 +10,7 @@ export function ActionButtons() {
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.6, duration: 0.5 }}
-      className="flex flex-wrap justify-center gap-4 mt-4 mb-16"
+      className="flex flex-wrap justify-center gap-4 mt-4 mb-16 max-w-full overflow-hidden"
     >
       <Link
         to="/medicines"
