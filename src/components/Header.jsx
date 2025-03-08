@@ -8,7 +8,6 @@ import {
   FaCalendarAlt,
   FaInfoCircle,
   FaHome,
-  FaSearch,
 } from "react-icons/fa";
 
 export function Header() {
@@ -46,8 +45,8 @@ export function Header() {
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-500 ${
-        isScrolled
-          ? "bg-[#1a1a1a] backdrop-blur-sm shadow-lg shadow-blue-900/10 py-2"
+        isScrolled || isMobileMenuOpen
+          ? "bg-[#1a1a1a] py-2"
           : "bg-transparent py-4"
       }`}
     >
@@ -148,7 +147,7 @@ export function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-[#151515] border-t border-gray-800/40 shadow-lg shadow-blue-900/5 overflow-hidden"
+            className="md:hidden bg-[#1a1a1a] shadow-lg shadow-blue-900/5 overflow-hidden"
           >
             <div className="px-3 pt-3 pb-4 space-y-1.5">
               <MobileNavLink to="/" active={location.pathname === "/"}>

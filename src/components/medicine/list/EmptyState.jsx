@@ -32,7 +32,7 @@ export function EmptyState() {
         transition={{ delay: 0.5 }}
       >
         <div className="flex items-center gap-2">
-          <FaPills />
+          <FaPills className="hidden sm:block" />
           <span>Get started with your first medication</span>
         </div>
       </motion.div>
