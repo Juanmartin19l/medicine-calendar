@@ -14,7 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   exportToCalendar,
   exportToLocalCalendar,
-} from "../utils/calendarExporter";
+} from "../../utils/calendarExporter";
 
 export function Export({ medicines }) {
   const [exportStatus, setExportStatus] = useState({
@@ -339,7 +339,7 @@ export function Export({ medicines }) {
         >
           <div className="flex justify-center mb-3">
             <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 p-2.5 rounded-full">
-              <FaBell className="text-xl text-green-400" />
+              <FaBell className="text-xl text-blue-400" />
             </div>
           </div>
           <h3 className="text-sm font-medium mb-1.5 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">

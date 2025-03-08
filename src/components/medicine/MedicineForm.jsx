@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FormField } from "./form/FormField";
 import { LimitWarning } from "./form/LimitWarning";
 import { SubmitButton } from "./form/SubmitButton";
-import { validateMedicineForm } from "../utils/formValidation";
+import { validateMedicineForm } from "../../utils/formValidation";
 
 // Componente para los botones de selección rápida
 function QuickSelectButton({ label, onClick, isActive, color }) {
