@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { MedicineForm } from "../components/MedicineForm";
-import { MedicineList } from "../components/MedicineList";
+import { MedicineForm } from "../components/medicine/MedicineForm";
+import { MedicineList } from "../components/medicine/MedicineList";
+import { Export } from "../components/medicine/CalendarExport";
 import { Footer } from "../components/Footer";
-import { Export } from "../components/CalendarExport";
+import { Header } from "../components/Header";
+import { SEO } from "../components/SEO";
+import { PageHeader } from "../components/shared/PageHeader";
+import { SectionContainer } from "../components/medicine/SectionContainer";
+import { InfoSection } from "../components/medicine/InfoSection";
 import { clearFileCache } from "../utils/calendarExporter";
+import { FaPills, FaListAlt, FaCalendarAlt } from "react-icons/fa";
 
-export function MedicinePage() {
+/**
+ * Medicine page component for managing medications and exporting calendars
+ */
+function MedicinePage() {
   const [medicines, setMedicines] = useState(() => {
     try {
       const saved = localStorage.getItem("medicines");
@@ -21,7 +29,6 @@ export function MedicinePage() {
       localStorage.setItem("medicines", JSON.stringify(medicines));
       // Clear file cache whenever medicines change
       clearFileCache();
-      console.log("Data saved:", medicines);
     } catch (error) {
       console.error("Error saving data:", error);
     }
@@ -36,43 +43,78 @@ export function MedicinePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#222222] text-white">
-      <div className="flex-grow">
-        <h1 className="text-5xl font-light text-center mb-12 pt-8">
-          Medicine Calendar
-        </h1>
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto p-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#1e1e24] to-[#222222] text-white">
+      {/* SEO Optimization */}
+      <SEO
+        title="Medicine Calendar - Track Your Medications"
+        description="Add your prescriptions, set frequencies, and export your calendar to stay on top of your health regimen."
+        keywords="medicine tracker, medication schedule, medicine export, health management"
+        ogTitle="Medicine Calendar - Track Your Medications"
+        ogDescription="Never miss a dose again with our medication tracking calendar."
+        canonical="https://juanmartin19l.github.io/medicine-calendar/"
+      />
+
+      <Header />
+
+      <div className="flex-grow pt-24">
+        {/* Page Header */}
+        <PageHeader
+          title="Your Personal Health Assistant"
+          subtitle="Track your medication schedule seamlessly. Add your prescriptions, set frequencies, and export your calendar to stay on top of your health regimen. Never miss a dose again."
+        />
+
+        {/* Main Content */}
+        <div className="max-w-6xl mx-auto px-4 mb-16">
+          {/* Form and List Section */}
+          <div className="grid md:grid-cols-2 gap-8 mb-16">
+            {/* Medicine Form Section */}
+            <SectionContainer
+              id="add-medication"
+              icon={<FaPills />}
+              title="Add New Medication"
+              color="blue"
+              delay={0.1}
+            >
+              <MedicineForm
+                onSubmit={handleAddMedicine}
+                existingMedicines={medicines}
+              />
+            </SectionContainer>
+
+            {/* Medicine List Section */}
+            <SectionContainer
+              id="your-medications"
+              icon={<FaListAlt />}
+              title="Your Medications"
+              color="purple"
+              delay={0.2}
+            >
+              <MedicineList
+                medicines={medicines}
+                onDelete={handleDeleteMedicine}
+              />
+            </SectionContainer>
+          </div>
+
+          {/* Export Section */}
+          <SectionContainer
+            id="export-calendar"
+            icon={<FaCalendarAlt />}
+            title="Export Your Calendar"
+            color="green"
+            delay={0.3}
           >
-            <MedicineForm
-              onSubmit={handleAddMedicine}
-              existingMedicines={medicines}
-            />
-          </motion.div>
-          <div className="border-t border-gray-600 my-4 md:hidden"></div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <MedicineList
-              medicines={medicines}
-              onDelete={handleDeleteMedicine}
-            />
-          </motion.div>
+            <Export medicines={medicines} />
+          </SectionContainer>
+
+          {/* Info Section */}
+          <InfoSection />
         </div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <Export medicines={medicines} />
-        </motion.div>
       </div>
+
       <Footer />
     </div>
   );
 }
+
+export default MedicinePage;
