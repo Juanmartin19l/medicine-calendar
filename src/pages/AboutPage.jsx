@@ -21,7 +21,7 @@ export function AboutPage() {
         keywords="medicine tracker, medication management, health app, medication reminder"
         ogTitle="About Medicine Calendar"
         ogDescription="Learn about Medicine Calendar, how it was created, and how it helps people manage their medication schedules."
-        canonical="https://yourdomain.com/about"
+        canonical="https://juanmartin19l.github.io/medicine-calendar/about"
       />
 
       <Header />

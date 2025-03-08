@@ -22,7 +22,7 @@ export function HomePage() {
         keywords="medicine tracker, medication schedule, medical calendar, health reminder"
         ogTitle="Medicine Calendar - Track Your Medication Schedule"
         ogDescription="Never miss a dose again. Medicine Calendar helps you track your medication schedule easily."
-        canonical="https://yourdomain.com/"
+        canonical="https://juanmartin19l.github.io/medicine-calendar/"
       />
 
       <Header />

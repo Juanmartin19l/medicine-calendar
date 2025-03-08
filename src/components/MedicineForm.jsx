@@ -6,6 +6,39 @@ import { LimitWarning } from "./form/LimitWarning";
 import { SubmitButton } from "./form/SubmitButton";
 import { validateMedicineForm } from "../utils/formValidation";
 
+// Componente para los botones de selección rápida
+function QuickSelectButton({ label, onClick, isActive, color }) {
+  const bgColors = {
+    blue: isActive
+      ? "bg-blue-500/30 border-blue-500/50"
+      : "bg-[#2a2a2a] border-transparent hover:bg-[#323232]",
+    purple: isActive
+      ? "bg-purple-500/30 border-purple-500/50"
+      : "bg-[#2a2a2a] border-transparent hover:bg-[#323232]",
+    green: isActive
+      ? "bg-green-500/30 border-green-500/50"
+      : "bg-[#2a2a2a] border-transparent hover:bg-[#323232]",
+  };
+
+  const textColors = {
+    blue: isActive ? "text-blue-300" : "text-gray-300",
+    purple: isActive ? "text-purple-300" : "text-gray-300",
+    green: isActive ? "text-green-300" : "text-gray-300",
+  };
+
+  return (
+    <motion.button
+      type="button"
+      className={`text-xs ${bgColors[color]} ${textColors[color]} py-1.5 px-3 rounded-md border transition-colors duration-200`}
+      onClick={onClick}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      {label}
+    </motion.button>
+  );
+}
+
 export function MedicineForm({ onSubmit, existingMedicines }) {
   const [medicine, setMedicine] = useState("");
   const [interval, setInterval] = useState("");
@@ -20,6 +53,9 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
   });
   const [errors, setErrors] = useState({});
   const [showIntervalTooltip, setShowIntervalTooltip] = useState(false);
+  const [activeInterval, setActiveInterval] = useState(null);
+  const [activeDuration, setActiveDuration] = useState(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const formRef = useRef(null);
   const intervalRef = useRef(null);
 
@@ -59,6 +95,18 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
     { label: "2 weeks", value: 14 },
   ];
 
+  // Manejador para los botones de intervalo
+  const handleIntervalSelect = (value) => {
+    setInterval(value.toString());
+    setActiveInterval(value);
+  };
+
+  // Manejador para los botones de duración
+  const handleDurationSelect = (value) => {
+    setDuration(value.toString());
+    setActiveDuration(value);
+  };
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -94,12 +142,31 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
         .slice(0, 16);
       setStartTime(localISOTime);
       setErrors({});
+      setActiveInterval(null);
+      setActiveDuration(null);
 
       // Show success message
       setShowSuccessMessage(true);
       setTimeout(() => setShowSuccessMessage(false), 3000);
     }
   }
+
+  // Variantes para las animaciones de error
+  const errorAnimationVariants = {
+    initial: { opacity: 0, y: -5, scale: 0.95 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { type: "spring", stiffness: 300, damping: 20 },
+    },
+    exit: {
+      opacity: 0,
+      y: -5,
+      scale: 0.95,
+      transition: { duration: 0.2 },
+    },
+  };
 
   return (
     <div className="space-y-4">
@@ -164,7 +231,10 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
                     errors.interval ? "border-red-500" : "border-gray-600"
                   } focus:outline-none focus:border-blue-500`}
                   value={interval}
-                  onChange={(e) => setInterval(e.target.value)}
+                  onChange={(e) => {
+                    setInterval(e.target.value);
+                    setActiveInterval(parseInt(e.target.value) || null);
+                  }}
                   min="1"
                   max="72"
                 />
@@ -173,9 +243,10 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
                 {errors.interval && (
                   <motion.p
                     className="mt-1 text-sm text-red-500"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
+                    variants={errorAnimationVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
                   >
                     {errors.interval}
                   </motion.p>
@@ -187,14 +258,13 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           {/* Quick selection buttons for common intervals */}
           <div className="flex flex-wrap gap-2 mt-2">
             {commonIntervals.map((item) => (
-              <button
+              <QuickSelectButton
                 key={item.value}
-                type="button"
-                className="text-xs bg-[#444] hover:bg-[#555] text-gray-300 py-1 px-2 rounded"
-                onClick={() => setInterval(item.value.toString())}
-              >
-                {item.label}
-              </button>
+                label={item.label}
+                onClick={() => handleIntervalSelect(item.value)}
+                isActive={activeInterval === item.value}
+                color="blue"
+              />
             ))}
           </div>
         </div>
@@ -219,7 +289,10 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
                 errors.duration ? "border-red-500" : "border-gray-600"
               } focus:outline-none focus:border-blue-500`}
               value={duration}
-              onChange={(e) => setDuration(e.target.value)}
+              onChange={(e) => {
+                setDuration(e.target.value);
+                setActiveDuration(parseInt(e.target.value) || null);
+              }}
               min="1"
               max="31"
             />
@@ -228,9 +301,10 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
             {errors.duration && (
               <motion.p
                 className="text-sm text-red-500"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
+                variants={errorAnimationVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
               >
                 {errors.duration}
               </motion.p>
@@ -240,14 +314,13 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           {/* Quick selection buttons for common durations */}
           <div className="flex flex-wrap gap-2 mt-2">
             {commonDurations.map((item) => (
-              <button
+              <QuickSelectButton
                 key={item.value}
-                type="button"
-                className="text-xs bg-[#444] hover:bg-[#555] text-gray-300 py-1 px-2 rounded"
-                onClick={() => setDuration(item.value.toString())}
-              >
-                {item.label}
-              </button>
+                label={item.label}
+                onClick={() => handleDurationSelect(item.value)}
+                isActive={activeDuration === item.value}
+                color="purple"
+              />
             ))}
           </div>
         </div>
