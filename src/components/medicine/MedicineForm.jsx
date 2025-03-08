@@ -181,8 +181,8 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           onChange={(e) => setMedicine(e.target.value)}
           error={errors.medicine}
         />
-
-        {/* Interval Field with Presets - Using a custom implementation instead of FormField */}
+        {/* Interval Field with Presets - Using a custom implementation instead
+        of FormField */}
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <label
@@ -197,7 +197,7 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
                 onClick={() => setShowIntervalTooltip(!showIntervalTooltip)}
               />
               {showIntervalTooltip && (
-                <div className="absolute z-10 bg-gray-800 p-3 rounded-md shadow-lg text-xs w-56 right-0 mt-2">
+                <div className="absolute z-10 bg-gray-800 p-3 rounded-md shadow-lg text-xs w-56 -right-15 mt-2">
                   <p>Common intervals:</p>
                   <ul className="list-disc pl-4 mt-1">
                     <li>4 hours: For medications needed frequently</li>
@@ -260,7 +260,6 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
             ))}
           </div>
         </div>
-
         {/* Duration Field with Presets - Using a custom implementation instead of FormField */}
         <div className="space-y-2">
           <label
@@ -316,7 +315,6 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
             ))}
           </div>
         </div>
-
         {/* Start Time Field */}
         <FormField
           label="Start Date and Time"
@@ -341,7 +339,6 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           required
           onInvalid={(e) => e.preventDefault()}
         />
-
         {/* Submit Button */}
         <div className="mt-6">
           <SubmitButton disabled={reachedMedicineLimit} />
