@@ -1,41 +1,31 @@
 import { useState, useRef, useEffect } from "react";
-import { FaPills, FaClock, FaCalendarAlt, FaInfoCircle } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
+import { FaPills, FaClock } from "react-icons/fa";
 import { FormField } from "./form/FormField";
 import { LimitWarning } from "./form/LimitWarning";
 import { SubmitButton } from "./form/SubmitButton";
+import { IntervalField } from "./form/IntervalField";
+import { DurationField } from "./form/DurationField";
 import { validateMedicineForm } from "../../utils/formValidation";
 
-// Componente para los botones de selección rápida
-function QuickSelectButton({ label, onClick, isActive, color }) {
-  const bgColors = {
-    blue: isActive
-      ? "bg-blue-500/30 border-blue-500/50"
-      : "bg-[#3a3a3a] border-transparent hover:bg-[#424242]",
-    purple: isActive
-      ? "bg-purple-500/30 border-purple-500/50"
-      : "bg-[#3a3a3a] border-transparent hover:bg-[#424242]",
-  };
+/**
+ * @typedef {Object} Medicine
+ * @property {string} name - Medication name
+ * @property {number} interval - Dosage interval in hours
+ * @property {number} duration - Treatment duration in days
+ * @property {string} startTime - ISO timestamp of first dose
+ */
 
-  const textColors = {
-    blue: isActive ? "text-blue-300" : "text-gray-300",
-    purple: isActive ? "text-purple-300" : "text-gray-300",
-    green: isActive ? "text-green-300" : "text-gray-300",
-  };
+/**
+ * @typedef {Object} MedicineFormProps
+ * @property {Function} onSubmit - Function to handle form submission
+ * @property {Array<Medicine>} existingMedicines - Array of existing medications
+ */
 
-  return (
-    <motion.button
-      type="button"
-      className={`text-xs ${bgColors[color]} ${textColors[color]} py-1.5 px-3 rounded-md border transition-colors duration-200`}
-      onClick={onClick}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      {label}
-    </motion.button>
-  );
-}
-
+/**
+ * Form component for adding new medications to the schedule
+ * @param {MedicineFormProps} props - Component props
+ * @returns {JSX.Element} - Rendered form component
+ */
 export function MedicineForm({ onSubmit, existingMedicines }) {
   const [medicine, setMedicine] = useState("");
   const [interval, setInterval] = useState("");
@@ -49,7 +39,6 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
     return localISOTime;
   });
   const [errors, setErrors] = useState({});
-  const [showIntervalTooltip, setShowIntervalTooltip] = useState(false);
   const [activeInterval, setActiveInterval] = useState(null);
   const [activeDuration, setActiveDuration] = useState(null);
   const formRef = useRef(null);
@@ -61,7 +50,7 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
   useEffect(() => {
     function handleClickOutside(event) {
       if (intervalRef.current && !intervalRef.current.contains(event.target)) {
-        setShowIntervalTooltip(false);
+        intervalRef.current.closeTooltip?.();
       }
     }
 
@@ -71,38 +60,10 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
     };
   }, [intervalRef]);
 
-  // Common intervals for quick selection
-  const commonIntervals = [
-    { label: "4 hours", value: 4 },
-    { label: "6 hours", value: 6 },
-    { label: "8 hours", value: 8 },
-    { label: "12 hours", value: 12 },
-    { label: "Daily", value: 24 },
-    { label: "2 days", value: 48 },
-  ];
-
-  // Common durations for quick selection
-  const commonDurations = [
-    { label: "1 day", value: 1 },
-    { label: "2 days", value: 2 },
-    { label: "3 days", value: 3 },
-    { label: "5 days", value: 5 },
-    { label: "1 week", value: 7 },
-    { label: "2 weeks", value: 14 },
-  ];
-
-  // Manejador para los botones de intervalo
-  const handleIntervalSelect = (value) => {
-    setInterval(value.toString());
-    setActiveInterval(value);
-  };
-
-  // Manejador para los botones de duración
-  const handleDurationSelect = (value) => {
-    setDuration(value.toString());
-    setActiveDuration(value);
-  };
-
+  /**
+   * Handle form submission
+   * @param {Event} e - Form submission event
+   */
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -131,19 +92,39 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
       setMedicine("");
       setInterval("");
       setDuration("");
-      const now = new Date();
-      const timezoneOffset = now.getTimezoneOffset() * 60000;
-      const localISOTime = new Date(now - timezoneOffset)
-        .toISOString()
-        .slice(0, 16);
-      setStartTime(localISOTime);
+      resetStartTime();
       setErrors({});
       setActiveInterval(null);
       setActiveDuration(null);
     }
   }
 
-  // Variantes para las animaciones de error
+  /**
+   * Format date-time for more consistent cross-browser display
+   * @param {Date} date - Date object to format
+   * @returns {string} - Formatted date-time string
+   */
+  function formatDateTimeForInput(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
+  /**
+   * Reset start time to current time
+   */
+  function resetStartTime() {
+    const now = new Date();
+    const timezoneOffset = now.getTimezoneOffset() * 60000;
+    const localTime = new Date(now - timezoneOffset);
+    setStartTime(formatDateTimeForInput(localTime));
+  }
+
+  // Animation variants for error messages
   const errorAnimationVariants = {
     initial: { opacity: 0, y: -5, scale: 0.95 },
     animate: {
@@ -180,141 +161,30 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           value={medicine}
           onChange={(e) => setMedicine(e.target.value)}
           error={errors.medicine}
+          id="medication-name"
+          name="medicine"
         />
-        {/* Interval Field with Presets - Using a custom implementation instead
-        of FormField */}
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <label
-              htmlFor="interval"
-              className="block text-sm font-medium text-gray-300"
-            >
-              Dosage Interval (hours)
-            </label>
-            <div className="relative" ref={intervalRef}>
-              <FaInfoCircle
-                className="text-gray-400 hover:text-blue-400 cursor-pointer"
-                onClick={() => setShowIntervalTooltip(!showIntervalTooltip)}
-              />
-              {showIntervalTooltip && (
-                <div className="absolute z-10 bg-gray-800 p-3 rounded-md shadow-lg text-xs w-56 -right-15 mt-2">
-                  <p>Common intervals:</p>
-                  <ul className="list-disc pl-4 mt-1">
-                    <li>4 hours: For medications needed frequently</li>
-                    <li>6-8 hours: Common for antibiotics</li>
-                    <li>12-24 hours: For daily medications</li>
-                    <li>48-72 hours: For less frequent treatments</li>
-                  </ul>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="flex items-center">
-            <div className="flex-1">
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <FaClock className="text-gray-400" />
-                </span>
-                <input
-                  type="number"
-                  id="interval"
-                  placeholder="Enter interval in hours"
-                  className={`w-full pl-10 pr-3 py-2 rounded-md bg-[#333] border ${
-                    errors.interval ? "border-red-500" : "border-gray-600"
-                  } focus:outline-none focus:border-blue-500`}
-                  value={interval}
-                  onChange={(e) => {
-                    setInterval(e.target.value);
-                    setActiveInterval(parseInt(e.target.value) || null);
-                  }}
-                  min="1"
-                  max="72"
-                />
-              </div>
-              <AnimatePresence>
-                {errors.interval && (
-                  <motion.p
-                    className="mt-1 text-sm text-red-500"
-                    variants={errorAnimationVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                  >
-                    {errors.interval}
-                  </motion.p>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
 
-          {/* Quick selection buttons for common intervals */}
-          <div className="flex flex-wrap gap-2 mt-2">
-            {commonIntervals.map((item) => (
-              <QuickSelectButton
-                key={item.value}
-                label={item.label}
-                onClick={() => handleIntervalSelect(item.value)}
-                isActive={activeInterval === item.value}
-                color="blue"
-              />
-            ))}
-          </div>
-        </div>
-        {/* Duration Field with Presets - Using a custom implementation instead of FormField */}
-        <div className="space-y-2">
-          <label
-            htmlFor="duration"
-            className="block text-sm font-medium text-gray-300"
-          >
-            Duration (days)
-          </label>
-          <div className="relative">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <FaCalendarAlt className="text-gray-400" />
-            </span>
-            <input
-              type="number"
-              id="duration"
-              placeholder="Enter duration in days"
-              className={`w-full pl-10 pr-3 py-2 rounded-md bg-[#333] border ${
-                errors.duration ? "border-red-500" : "border-gray-600"
-              } focus:outline-none focus:border-blue-500`}
-              value={duration}
-              onChange={(e) => {
-                setDuration(e.target.value);
-                setActiveDuration(parseInt(e.target.value) || null);
-              }}
-              min="1"
-              max="31"
-            />
-          </div>
-          <AnimatePresence>
-            {errors.duration && (
-              <motion.p
-                className="text-sm text-red-500"
-                variants={errorAnimationVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-              >
-                {errors.duration}
-              </motion.p>
-            )}
-          </AnimatePresence>
+        {/* Interval Field Component */}
+        <IntervalField
+          value={interval}
+          onChange={setInterval}
+          error={errors.interval}
+          activeInterval={activeInterval}
+          setActiveInterval={setActiveInterval}
+          errorAnimationVariants={errorAnimationVariants}
+        />
 
-          {/* Quick selection buttons for common durations */}
-          <div className="flex flex-wrap gap-2 mt-2">
-            {commonDurations.map((item) => (
-              <QuickSelectButton
-                key={item.value}
-                label={item.label}
-                onClick={() => handleDurationSelect(item.value)}
-                isActive={activeDuration === item.value}
-                color="purple"
-              />
-            ))}
-          </div>
-        </div>
+        {/* Duration Field Component */}
+        <DurationField
+          value={duration}
+          onChange={setDuration}
+          error={errors.duration}
+          activeDuration={activeDuration}
+          setActiveDuration={setActiveDuration}
+          errorAnimationVariants={errorAnimationVariants}
+        />
+
         {/* Start Time Field */}
         <FormField
           label="Start Date and Time"
@@ -323,22 +193,18 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
           value={startTime}
           onChange={(e) => setStartTime(e.target.value)}
           error={errors.startTime}
-          min={new Date(
-            new Date().getTime() -
-              new Date().getTimezoneOffset() * 60000 -
-              86400000
-          )
-            .toISOString()
-            .slice(0, 16)}
-          max={new Date(
-            new Date(new Date().setMonth(new Date().getMonth() + 1)).getTime() -
-              new Date().getTimezoneOffset() * 60000
-          )
-            .toISOString()
-            .slice(0, 16)}
+          min={formatDateTimeForInput(
+            new Date(Date.now() - 86400000) // 24 hours ago
+          )}
+          max={formatDateTimeForInput(
+            new Date(new Date().setMonth(new Date().getMonth() + 1))
+          )}
           required
           onInvalid={(e) => e.preventDefault()}
+          id="start-time"
+          name="startTime"
         />
+
         {/* Submit Button */}
         <div className="mt-6">
           <SubmitButton disabled={reachedMedicineLimit} />

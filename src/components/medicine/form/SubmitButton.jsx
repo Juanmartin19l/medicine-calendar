@@ -1,5 +1,15 @@
 import { motion } from "framer-motion";
 
+/**
+ * @typedef {Object} SubmitButtonProps
+ * @property {boolean} [disabled] - Whether the button is disabled
+ */
+
+/**
+ * Animated submit button for the medicine form
+ * @param {SubmitButtonProps} props - Component props
+ * @returns {JSX.Element} - Rendered button component
+ */
 export function SubmitButton({ disabled }) {
   return (
     <motion.button

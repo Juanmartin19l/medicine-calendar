@@ -1,6 +1,12 @@
 import { motion } from "framer-motion";
 import { FaExclamationTriangle } from "react-icons/fa";
 
+/**
+ * Warning component displayed when the user reaches the medication limit
+ * Informs users they cannot add more medications until they remove existing ones
+ *
+ * @returns {JSX.Element} - Rendered warning component
+ */
 export function LimitWarning() {
   return (
     <motion.div
