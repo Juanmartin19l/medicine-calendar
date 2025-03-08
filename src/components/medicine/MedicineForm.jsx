@@ -11,10 +11,10 @@ function QuickSelectButton({ label, onClick, isActive, color }) {
   const bgColors = {
     blue: isActive
       ? "bg-blue-500/30 border-blue-500/50"
-      : "bg-[#2a2a2a] border-transparent hover:bg-[#323232]",
+      : "bg-[#3a3a3a] border-transparent hover:bg-[#424242]",
     purple: isActive
       ? "bg-purple-500/30 border-purple-500/50"
-      : "bg-[#2a2a2a] border-transparent hover:bg-[#323232]",
+      : "bg-[#3a3a3a] border-transparent hover:bg-[#424242]",
   };
 
   const textColors = {
