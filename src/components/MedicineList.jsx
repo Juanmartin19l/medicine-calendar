@@ -40,21 +40,37 @@ export function MedicineList({ medicines, onDelete }) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="flex flex-col items-center justify-center py-10 text-center text-gray-400 border border-dashed border-gray-700 rounded-lg h-full"
+              className="flex flex-col items-center justify-center py-10 text-center bg-gradient-to-b from-[#2d2d2d]/50 to-[#323232]/50 rounded-lg h-full"
             >
-              <FaPills className="text-4xl mb-4 text-gray-600" />
-              <p className="text-lg mb-2">No medications added yet</p>
-              <p className="text-sm max-w-xs">
+              <div className="bg-gray-700/30 p-4 rounded-full mb-5">
+                <FaPills className="text-4xl text-purple-400/80" />
+              </div>
+              <h3 className="text-xl font-medium mb-3 text-gray-300">
+                No medications added yet
+              </h3>
+              <p className="text-sm max-w-xs text-gray-400 px-6">
                 Add your first medication using the form to start tracking your
-                schedule.
+                medication schedule.
               </p>
+
+              <motion.div
+                className="mt-8 bg-purple-500/10 border border-purple-500/20 text-purple-300 rounded-md px-4 py-2 text-sm"
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                <div className="flex items-center gap-2">
+                  <FaPills />
+                  <span>Get started with your first medication</span>
+                </div>
+              </motion.div>
             </motion.div>
           ) : (
             <motion.div
               key="list"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="h-full overflow-y-auto pr-1"
+              className="h-full overflow-y-auto pr-1 custom-scrollbar"
               style={{
                 scrollbarWidth: "thin",
                 scrollbarColor: "#4a5568 #2d3748",
@@ -79,7 +95,7 @@ export function MedicineList({ medicines, onDelete }) {
                         stiffness: 500,
                         damping: 30,
                       }}
-                      className="bg-gradient-to-r from-[#2d2d2d] to-[#323232] p-5 rounded-lg border border-gray-700 shadow-md"
+                      className="bg-gradient-to-r from-[#2d2d2d] to-[#323232] p-5 rounded-lg border border-gray-700 shadow-md hover:border-purple-500/30 transition-colors duration-300"
                     >
                       <div className="flex justify-between items-start gap-4">
                         <div className="space-y-3 flex-1">
@@ -177,24 +193,22 @@ export function MedicineList({ medicines, onDelete }) {
         </AnimatePresence>
       </div>
 
-      {/* Counter footer con altura fija */}
-      <div className="pt-3 border-t border-gray-700/30 mt-3 h-[40px] flex items-center justify-center">
-        {medicines.length > 0 ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-sm text-gray-400 text-center"
-          >
+      {/* Counter footer - solo se muestra cuando hay medicamentos */}
+      {medicines.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="pt-3 border-t border-gray-700/30 mt-3 h-[40px] flex items-center justify-center"
+        >
+          <div className="text-sm text-gray-400 text-center">
             <p>
               Total: {medicines.length}{" "}
               {medicines.length === 1 ? "medication" : "medications"}
             </p>
-          </motion.div>
-        ) : (
-          <div className="text-sm text-transparent">&nbsp;</div>
-        )}
-      </div>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
