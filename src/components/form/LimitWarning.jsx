@@ -4,12 +4,18 @@ import { FaExclamationTriangle } from "react-icons/fa";
 export function LimitWarning() {
   return (
     <motion.div
-      className="bg-yellow-500/20 border border-yellow-500 text-yellow-200 rounded-md p-3 mb-4 flex items-center gap-2"
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
+      className="bg-amber-900/40 border border-amber-500 text-amber-200 px-4 py-3 rounded-md flex items-start gap-3"
     >
-      <FaExclamationTriangle />
-      <span>You've reached the maximum limit of 10 medications.</span>
+      <FaExclamationTriangle className="text-amber-500 text-xl flex-shrink-0 mt-0.5" />
+      <div>
+        <p className="font-medium">Medication limit reached</p>
+        <p className="text-sm mt-1">
+          You've reached the maximum of 10 medications. Please remove some
+          before adding new ones.
+        </p>
+      </div>
     </motion.div>
   );
 }
