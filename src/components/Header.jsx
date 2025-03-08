@@ -44,12 +44,8 @@ export function Header() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          {/* Logo with enhanced animation */}
-          <motion.div
-            whileHover={{ scale: 1.03 }}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            className="flex items-center"
-          >
+          {/* Logo without hover animation */}
+          <div className="flex items-center">
             <Link to="/" className="flex items-center gap-3">
               <motion.div
                 whileHover={{ rotate: [0, -10, 10, -5, 0] }}
@@ -67,7 +63,7 @@ export function Header() {
                 </div>
               </div>
             </Link>
-          </motion.div>
+          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-2">

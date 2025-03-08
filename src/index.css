@@ -63,8 +63,6 @@ input[type="number"] {
 }
 
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-  filter: invert(
-    1
-  ); /* Invierte el color del icono (útil para cambiar a blanco) */
+  filter: invert(1); /* Invert the icon color to match the dark background */
   cursor: pointer;
 }
