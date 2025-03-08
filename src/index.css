@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  font-family: "Nunito", serif;
+  font-family: "Nunito Variable", system-ui, sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
