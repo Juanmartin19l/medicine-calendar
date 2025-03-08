@@ -1,7 +1,8 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { SEO } from "../components/SEO";
-import { Hero } from "../components/home/Hero";
+import { PageHeader } from "../components/shared/PageHeader";
+import { ActionButtons } from "../components/home/ActionButtons";
 import { FeaturesSection } from "../components/home/FeaturesSection";
 import { WorkflowSection } from "../components/home/WorkflowSection";
 import { BenefitsSection } from "../components/home/BenefitsSection";
@@ -26,8 +27,14 @@ export function HomePage() {
       <Header />
 
       <div className="flex-grow pt-24 px-4">
-        {/* Hero Section */}
-        <Hero />
+        {/* Hero Section - Using PageHeader directly */}
+        <PageHeader
+          title="Never Miss a Dose Again"
+          subtitle="Track, schedule, and export your medication calendar with ease. Medicine Calendar helps you stay on top of your health regimen."
+        />
+
+        {/* Action Buttons */}
+        <ActionButtons />
 
         {/* Features Section */}
         <FeaturesSection />
