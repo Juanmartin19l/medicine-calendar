@@ -43,7 +43,6 @@ export function Footer() {
   return (
     <footer className="bg-[#111111] relative overflow-hidden">
       {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500/30 via-purple-500/40 to-blue-400/30"></div>
       <div className="absolute -top-24 -left-24 w-48 h-48 rounded-full bg-blue-500/5 blur-3xl"></div>
       <div className="absolute -bottom-24 -right-24 w-64 h-64 rounded-full bg-purple-500/5 blur-3xl"></div>
 

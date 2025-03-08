@@ -135,8 +135,8 @@ export function Export({ medicines }) {
               exportStatus.loading && exportStatus.type === "subscribe"
             }
             isDisabled={isDisabled}
-            colorClass="from-blue-600/90 to-blue-700/90 hover:from-blue-500 hover:to-blue-600 border-blue-500/30"
-            iconBgClass="bg-blue-500/30"
+            colorClass="from-blue-700/90 to-blue-800/90 hover:from-blue-600 hover:to-blue-700 border-blue-600/30"
+            iconBgClass="bg-blue-400/30"
           />
 
           {/* Download Button */}
@@ -147,7 +147,7 @@ export function Export({ medicines }) {
             onClick={handleDownload}
             isLoading={exportStatus.loading && exportStatus.type === "download"}
             isDisabled={isDisabled}
-            colorClass="from-purple-600/90 to-purple-700/90 hover:from-purple-500 hover:to-purple-600 border-purple-500/30"
+            colorClass="from-purple-700/90 to-purple-800/90 hover:from-purple-600 hover:to-purple-700 border-purple-600/30"
             iconBgClass="bg-purple-500/30"
           />
         </div>

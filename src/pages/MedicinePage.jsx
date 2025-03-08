@@ -59,7 +59,7 @@ export function MedicinePage() {
       <div className="flex-grow pt-24">
         {/* Page Header */}
         <PageHeader
-          title="Medicine Calendar"
+          title="Your Personal Health Assistant"
           subtitle="Track your medication schedule seamlessly. Add your prescriptions, set frequencies, and export your calendar to stay on top of your health regimen. Never miss a dose again."
         />
 
