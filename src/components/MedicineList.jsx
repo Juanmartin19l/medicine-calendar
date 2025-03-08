@@ -40,7 +40,7 @@ export function MedicineList({ medicines, onDelete }) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="flex flex-col items-center justify-center py-10 text-center bg-gradient-to-b from-[#2d2d2d]/50 to-[#323232]/50 rounded-lg h-full"
+              className="flex flex-col items-center justify-center py-10 text-center  rounded-lg h-full"
             >
               <div className="bg-gray-700/30 p-4 rounded-full mb-5">
                 <FaPills className="text-4xl text-purple-400/80" />
