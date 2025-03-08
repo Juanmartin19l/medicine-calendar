@@ -36,105 +36,145 @@ export function Header() {
 
   return (
     <header
-      className={`fixed w-full z-50 transition-all duration-300 ${
+      className={`fixed w-full z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-gradient-to-r from-[#1a1a1a]/95 to-[#212121]/95 backdrop-blur-sm shadow-lg py-2"
+          ? "bg-[#1a1a1a] backdrop-blur-sm shadow-lg shadow-blue-900/10 py-2"
           : "bg-transparent py-4"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          {/* Logo */}
+          {/* Logo with enhanced animation */}
           <motion.div
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.03 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
             className="flex items-center"
           >
-            <Link to="/" className="flex items-center gap-2">
-              <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 w-10 h-10 rounded-lg flex items-center justify-center border border-blue-500/20">
-                <FaPills className="text-xl text-blue-400" />
+            <Link to="/" className="flex items-center gap-3">
+              <motion.div
+                whileHover={{ rotate: [0, -10, 10, -5, 0] }}
+                transition={{ duration: 0.6 }}
+                className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 w-11 h-11 rounded-xl flex items-center justify-center border border-blue-500/30 shadow-md shadow-purple-500/10"
+              >
+                <FaPills className="text-2xl text-blue-400" />
+              </motion.div>
+              <div>
+                <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                  Medicine Calendar
+                </span>
+                <div className="text-xs text-gray-400 -mt-1 ml-0.5">
+                  Track your health easily
+                </div>
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                Medicine Calendar
-              </span>
             </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
+          <nav className="hidden md:flex items-center space-x-2">
             <NavLink to="/" active={location.pathname === "/"}>
-              <FaHome className="mr-1" />
+              <FaHome className="mr-2 text-blue-400" />
               Home
             </NavLink>
             <NavLink
               to="/medicines"
               active={location.pathname === "/medicines"}
             >
-              <FaCalendarAlt className="mr-1" />
+              <FaCalendarAlt className="mr-2 text-purple-400" />
               Calendar
             </NavLink>
             <NavLink to="/about" active={location.pathname === "/about"}>
-              <FaInfoCircle className="mr-1" />
+              <FaInfoCircle className="mr-2 text-green-400" />
               About
             </NavLink>
 
             {/* Try it button */}
-            <div className="ml-6">
+            <div className="ml-3">
               <Link to="/medicines">
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white text-sm font-medium py-2 px-4 rounded-md shadow-md shadow-blue-500/20 transition-all duration-300"
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 0 15px rgba(91, 33, 182, 0.4)",
+                  }}
+                  whileTap={{ scale: 0.97 }}
+                  className="relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white text-sm font-medium py-2.5 px-5 rounded-full shadow-lg shadow-purple-900/20 transition-all duration-300 overflow-hidden group"
                 >
-                  Try it Now
+                  <span className="relative z-10">Try it Now</span>
+                  <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 group-hover:animate-shine" />
                 </motion.button>
               </Link>
             </div>
           </nav>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu button with improved animation */}
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-md text-gray-300 hover:text-white focus:outline-none"
+            className="md:hidden p-2.5 rounded-full bg-[#232323] text-gray-400 hover:text-white focus:outline-none"
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={isMobileMenuOpen ? "close" : "menu"}
+                initial={{ opacity: 0, rotate: isMobileMenuOpen ? -90 : 90 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: isMobileMenuOpen ? 90 : -90 }}
+                transition={{ duration: 0.2 }}
+              >
+                {isMobileMenuOpen ? (
+                  <FaTimes size={18} />
+                ) : (
+                  <FaBars size={18} />
+                )}
+              </motion.div>
+            </AnimatePresence>
           </motion.button>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation with improved design */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden bg-gradient-to-b from-[#1a1a1a] to-[#222] border-t border-gray-700/40"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-[#151515] border-t border-gray-800/40 shadow-lg shadow-blue-900/5 overflow-hidden"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <div className="px-3 pt-3 pb-4 space-y-1.5">
               <MobileNavLink to="/" active={location.pathname === "/"}>
-                <FaHome className="mr-3" /> Home
+                <FaHome className="mr-3 text-blue-400" /> Home
               </MobileNavLink>
               <MobileNavLink
                 to="/medicines"
                 active={location.pathname === "/medicines"}
               >
-                <FaCalendarAlt className="mr-3" /> Calendar
+                <FaCalendarAlt className="mr-3 text-purple-400" /> Calendar
               </MobileNavLink>
               <MobileNavLink
                 to="/about"
                 active={location.pathname === "/about"}
               >
-                <FaInfoCircle className="mr-3" /> About
+                <FaInfoCircle className="mr-3 text-green-400" /> About
               </MobileNavLink>
 
+              {/* Search bar for mobile */}
+              <div className="pt-2 pb-1 flex items-center">
+                <div className="relative w-full">
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    className="w-full bg-[#232323] text-gray-300 pl-10 pr-4 py-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-purple-500 border border-gray-700/50"
+                  />
+                  <FaSearch className="absolute left-3.5 top-3.5 text-gray-400" />
+                </div>
+              </div>
+
               {/* Try it button for mobile */}
-              <div className="pt-3 mt-3 border-t border-gray-700/30">
+              <div className="pt-3 mt-2 border-t border-gray-800/40">
                 <Link
                   to="/medicines"
-                  className="flex items-center justify-center w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium py-3 px-4 rounded-md"
+                  className="flex items-center justify-center w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium py-3 px-4 rounded-lg shadow-lg shadow-purple-900/10"
                 >
                   Try it Now
                 </Link>
@@ -151,10 +191,10 @@ function NavLink({ to, children, active }) {
   return (
     <Link
       to={to}
-      className={`flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
+      className={`flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ${
         active
-          ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/20"
-          : "text-gray-300 hover:bg-[#333]/40 hover:text-white"
+          ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/20 shadow-sm shadow-purple-500/10"
+          : "text-gray-300 hover:bg-[#232323] hover:text-white"
       }`}
     >
       {children}
@@ -166,10 +206,10 @@ function MobileNavLink({ to, children, active }) {
   return (
     <Link
       to={to}
-      className={`flex items-center px-3 py-3 rounded-md text-base font-medium ${
+      className={`flex items-center px-3 py-3 rounded-lg text-base font-medium ${
         active
           ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white border border-blue-500/20"
-          : "text-gray-300 hover:bg-[#333]/40 hover:text-white"
+          : "text-gray-300 hover:bg-[#232323] hover:text-white"
       }`}
     >
       {children}
