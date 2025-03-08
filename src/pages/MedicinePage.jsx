@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet";
 import { MedicineForm } from "../components/MedicineForm";
 import { MedicineList } from "../components/MedicineList";
 import { Footer } from "../components/Footer";
 import { Export } from "../components/CalendarExport";
 import { Header } from "../components/Header";
+import { SEO } from "../components/SEO";
 import { clearFileCache } from "../utils/calendarExporter";
-import { FaPills, FaListAlt, FaCalendarAlt } from "react-icons/fa";
+import {
+  FaPills,
+  FaListAlt,
+  FaCalendarAlt,
+  FaInfoCircle,
+} from "react-icons/fa";
 
 export function MedicinePage() {
   const [medicines, setMedicines] = useState(() => {
@@ -24,7 +29,6 @@ export function MedicinePage() {
       localStorage.setItem("medicines", JSON.stringify(medicines));
       // Clear file cache whenever medicines change
       clearFileCache();
-      console.log("Data saved:", medicines);
     } catch (error) {
       console.error("Error saving data:", error);
     }
@@ -40,24 +44,15 @@ export function MedicinePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#1e1e24] to-[#222222] text-white">
-      {/* SEO Optimization */}
-      <Helmet>
-        <title>Medicine Calendar - Track Your Medications</title>
-        <meta
-          name="description"
-          content="Add your prescriptions, set frequencies, and export your calendar to stay on top of your health regimen."
-        />
-        <meta
-          property="og:title"
-          content="Medicine Calendar - Track Your Medications"
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:description"
-          content="Never miss a dose again with our medication tracking calendar."
-        />
-        <link rel="canonical" href="https://yourdomain.com/medicines" />
-      </Helmet>
+      {/* SEO Optimization con nuestro componente personalizado */}
+      <SEO
+        title="Medicine Calendar - Track Your Medications"
+        description="Add your prescriptions, set frequencies, and export your calendar to stay on top of your health regimen."
+        keywords="medicine tracker, medication schedule, medicine export, health management"
+        ogTitle="Medicine Calendar - Track Your Medications"
+        ogDescription="Never miss a dose again with our medication tracking calendar."
+        canonical="https://yourdomain.com/medicines"
+      />
 
       <Header />
 
@@ -91,18 +86,22 @@ export function MedicinePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-gradient-to-br from-[#2a2a2a] to-[#252525] rounded-lg p-6 shadow-xl border border-blue-500/10"
+              className="bg-gradient-to-br from-[#2a2a2a] to-[#252525] rounded-lg p-6 shadow-xl border border-blue-500/10 overflow-hidden relative"
             >
-              <div className="flex items-center justify-center mb-6">
-                <div className="bg-blue-500/20 p-2 rounded-full mr-3">
+              <div className="absolute -top-16 -right-16 w-32 h-32 bg-blue-500/5 rounded-full blur-xl"></div>
+              <div className="absolute -bottom-16 -left-16 w-32 h-32 bg-blue-500/5 rounded-full blur-xl"></div>
+
+              <div className="flex items-center mb-6 relative z-10">
+                <div className="bg-blue-500/20 p-3 rounded-full mr-4">
                   <FaPills className="text-blue-400 text-xl" />
                 </div>
-                <h2 className="text-2xl font-semibold text-center">
+                <h2 className="text-2xl font-semibold">
                   <span className="bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
                     Add New Medication
                   </span>
                 </h2>
               </div>
+
               <MedicineForm
                 onSubmit={handleAddMedicine}
                 existingMedicines={medicines}
@@ -118,18 +117,22 @@ export function MedicinePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-gradient-to-br from-[#2a2a2a] to-[#252525] rounded-lg p-6 shadow-xl border border-purple-500/10"
+              className="bg-gradient-to-br from-[#2a2a2a] to-[#252525] rounded-lg p-6 shadow-xl border border-purple-500/10 overflow-hidden relative"
             >
-              <div className="flex items-center justify-center mb-6">
-                <div className="bg-purple-500/20 p-2 rounded-full mr-3">
+              <div className="absolute -top-16 -left-16 w-32 h-32 bg-purple-500/5 rounded-full blur-xl"></div>
+              <div className="absolute -bottom-16 -right-16 w-32 h-32 bg-purple-500/5 rounded-full blur-xl"></div>
+
+              <div className="flex items-center mb-6 relative z-10">
+                <div className="bg-purple-500/20 p-3 rounded-full mr-4">
                   <FaListAlt className="text-purple-400 text-xl" />
                 </div>
-                <h2 className="text-2xl font-semibold text-center">
+                <h2 className="text-2xl font-semibold">
                   <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">
                     Your Medications
                   </span>
                 </h2>
               </div>
+
               <MedicineList
                 medicines={medicines}
                 onDelete={handleDeleteMedicine}
@@ -143,19 +146,75 @@ export function MedicinePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="bg-gradient-to-br from-[#2a2a2a] to-[#252525] rounded-lg p-6 shadow-xl border border-blue-500/10"
+            className="bg-gradient-to-br from-[#2a2a2a] to-[#252525] rounded-lg p-6 shadow-xl border border-green-500/10 overflow-hidden relative"
           >
-            <div className="flex items-center justify-center mb-6">
-              <div className="bg-blue-500/20 p-2 rounded-full mr-3">
-                <FaCalendarAlt className="text-blue-400 text-xl" />
+            <div className="absolute -top-16 -right-16 w-32 h-32 bg-green-500/5 rounded-full blur-xl"></div>
+            <div className="absolute -bottom-16 -left-16 w-32 h-32 bg-green-500/5 rounded-full blur-xl"></div>
+
+            <div className="flex items-center mb-6 relative z-10">
+              <div className="bg-green-500/20 p-3 rounded-full mr-4">
+                <FaCalendarAlt className="text-green-400 text-xl" />
               </div>
-              <h2 className="text-2xl font-semibold text-center">
-                <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <h2 className="text-2xl font-semibold">
+                <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">
                   Export Your Calendar
                 </span>
               </h2>
             </div>
+
             <Export medicines={medicines} />
+          </motion.div>
+
+          {/* Info Section - Nueva sección */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mt-8 bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-lg p-6 border border-blue-800/20"
+          >
+            <div className="flex items-center mb-4">
+              <div className="bg-blue-500/20 p-2 rounded-full mr-3">
+                <FaInfoCircle className="text-blue-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-white">How It Works</h3>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="bg-[#1d1d1d]/60 p-4 rounded-lg border border-gray-800/30">
+                <h4 className="font-medium text-blue-300 mb-2">
+                  Step 1: Add Your Medications
+                </h4>
+                <p className="text-gray-400 text-sm">
+                  Enter the name of your medication, the dosage, frequency, and
+                  period. You can add notes for specific instructions.
+                </p>
+              </div>
+              <div className="bg-[#1d1d1d]/60 p-4 rounded-lg border border-gray-800/30">
+                <h4 className="font-medium text-purple-300 mb-2">
+                  Step 2: Review Your Medications
+                </h4>
+                <p className="text-gray-400 text-sm">
+                  Check your list of medications. You can delete any entry
+                  that's no longer needed or add more medications to your
+                  schedule.
+                </p>
+              </div>
+              <div className="bg-[#1d1d1d]/60 p-4 rounded-lg border border-gray-800/30">
+                <h4 className="font-medium text-green-300 mb-2">
+                  Step 3: Export to Calendar
+                </h4>
+                <p className="text-gray-400 text-sm">
+                  Export your medication schedule to your preferred calendar app
+                  (iCal, Google, etc.) to receive reminders and keep track of
+                  your regimen.
+                </p>
+              </div>
+            </div>
+
+            <p className="text-gray-400 text-sm mt-6 text-center">
+              Your medication data is stored locally on your device. We don't
+              have access to your health information.
+            </p>
           </motion.div>
         </div>
       </div>
