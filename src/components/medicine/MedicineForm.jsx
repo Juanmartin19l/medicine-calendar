@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { FaPills, FaClock } from "react-icons/fa";
+import { FaPills, FaCalendarDay } from "react-icons/fa";
 import { FormField } from "./form/FormField";
 import { LimitWarning } from "./form/LimitWarning";
 import { SubmitButton } from "./form/SubmitButton";
@@ -188,7 +188,7 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
         {/* Start Time Field */}
         <FormField
           label="Start Date and Time"
-          icon={FaClock}
+          icon={FaCalendarDay}
           type="datetime-local"
           value={startTime}
           onChange={(e) => setStartTime(e.target.value)}

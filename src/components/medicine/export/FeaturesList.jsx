@@ -23,7 +23,7 @@ export function FeaturesList() {
         icon={<FaBell />}
         title="Stay on Schedule"
         description="Receive reminders for every medication dose"
-        color="gradient"
+        color="green"
       />
     </div>
   );

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
  * @param {JSX.Element} icon - Icon to display
  * @param {string} title - Feature title
  * @param {string} description - Feature description
- * @param {string} color - Color theme (blue, purple, gradient)
+ * @param {string} color - Color theme (blue, purple, green)
  */
 export function FeatureCard({ icon, title, description, color }) {
   const getBgColor = () => {
@@ -14,8 +14,8 @@ export function FeatureCard({ icon, title, description, color }) {
         return "border-blue-500/10";
       case "purple":
         return "border-purple-500/10";
-      case "gradient":
-        return "border-gradient-to-r border-blue-500/10 border-purple-500/10";
+      case "green":
+        return "border-green-500/10";
       default:
         return "border-gray-700";
     }
@@ -27,8 +27,8 @@ export function FeatureCard({ icon, title, description, color }) {
         return "bg-blue-500/20";
       case "purple":
         return "bg-purple-500/20";
-      case "gradient":
-        return "bg-gradient-to-r from-blue-500/20 to-purple-500/20";
+      case "green":
+        return "bg-green-500/20";
       default:
         return "bg-gray-700";
     }
@@ -40,8 +40,8 @@ export function FeatureCard({ icon, title, description, color }) {
         return "text-blue-300";
       case "purple":
         return "text-purple-300";
-      case "gradient":
-        return "bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent";
+      case "green":
+        return "text-green-300";
       default:
         return "text-white";
     }
@@ -53,8 +53,8 @@ export function FeatureCard({ icon, title, description, color }) {
         return "text-blue-400";
       case "purple":
         return "text-purple-400";
-      case "gradient":
-        return "text-blue-400";
+      case "green":
+        return "text-green-400";
       default:
         return "text-white";
     }

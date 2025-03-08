@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaClock, FaInfoCircle } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { QuickSelectButton } from "./QuickSelectButton";
@@ -28,6 +28,16 @@ export function IntervalField({
 }) {
   const [showIntervalTooltip, setShowIntervalTooltip] = useState(false);
   const intervalRef = useRef(null);
+
+  useEffect(() => {
+    let timer;
+    if (showIntervalTooltip) {
+      timer = setTimeout(() => {
+        setShowIntervalTooltip(false);
+      }, 7000);
+    }
+    return () => clearTimeout(timer);
+  }, [showIntervalTooltip]);
 
   // Common intervals for quick selection
   const commonIntervals = [
@@ -67,17 +77,24 @@ export function IntervalField({
             className="text-gray-400 hover:text-blue-400 cursor-pointer"
             onClick={() => setShowIntervalTooltip(!showIntervalTooltip)}
           />
-          {showIntervalTooltip && (
-            <div className="absolute z-10 bg-gray-800 p-3 rounded-md shadow-lg text-xs w-56 -right-15 mt-2">
-              <p>Common intervals:</p>
-              <ul className="list-disc pl-4 mt-1">
-                <li>4 hours: For medications needed frequently</li>
-                <li>6-8 hours: Common for antibiotics</li>
-                <li>12-24 hours: For daily medications</li>
-                <li>48-72 hours: For less frequent treatments</li>
-              </ul>
-            </div>
-          )}
+          <AnimatePresence>
+            {showIntervalTooltip && (
+              <motion.div
+                className="absolute z-10 bg-gray-800 p-3 rounded-md shadow-lg text-xs w-56 -right-15 mt-2"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+              >
+                <p>Common intervals:</p>
+                <ul className="list-disc pl-4 mt-1">
+                  <li>4 hours: For medications needed frequently</li>
+                  <li>6-8 hours: Common for antibiotics</li>
+                  <li>12-24 hours: For daily medications</li>
+                  <li>48-72 hours: For less frequent treatments</li>
+                </ul>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
       <div className="flex items-center">
