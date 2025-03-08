@@ -259,7 +259,7 @@ export function AboutPage() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto text-center py-20 px-4"
+          className="max-w-4xl mx-auto text-center pb-20 px-4"
         >
           <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-lg shadow-lg p-10 border border-gray-800/30">
             <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
