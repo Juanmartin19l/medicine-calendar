@@ -11,7 +11,7 @@ import { CallToAction } from "../components/home/CallToAction";
 /**
  * Home page component serving as the landing page for the application
  */
-export function HomePage() {
+function HomePage() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#1e1e24] to-[#222222] text-white">
       {/* SEO Optimization */}
@@ -53,3 +53,5 @@ export function HomePage() {
     </div>
   );
 }
+
+export default HomePage;

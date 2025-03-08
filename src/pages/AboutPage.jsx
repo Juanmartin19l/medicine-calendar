@@ -11,7 +11,7 @@ import { CallToAction } from "../components/about/CallToAction";
  * About page component providing information about Medicine Calendar,
  * its story, features, and target users
  */
-export function AboutPage() {
+function AboutPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#1e1e24] to-[#222222] text-white">
       {/* SEO Optimization */}
@@ -50,3 +50,5 @@ export function AboutPage() {
     </div>
   );
 }
+
+export default AboutPage;

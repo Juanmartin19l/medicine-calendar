@@ -14,7 +14,7 @@ import { FaPills, FaListAlt, FaCalendarAlt } from "react-icons/fa";
 /**
  * Medicine page component for managing medications and exporting calendars
  */
-export function MedicinePage() {
+function MedicinePage() {
   const [medicines, setMedicines] = useState(() => {
     try {
       const saved = localStorage.getItem("medicines");
@@ -116,3 +116,5 @@ export function MedicinePage() {
     </div>
   );
 }
+
+export default MedicinePage;
