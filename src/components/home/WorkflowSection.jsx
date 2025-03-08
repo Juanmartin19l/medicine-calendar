@@ -23,7 +23,7 @@ export function WorkflowSection() {
       delay: 0.3,
     },
     {
-      icon: <FaFileExport className="text-blue-400" />,
+      icon: <FaFileExport className="text-green-400" />,
       title: "Export Calendar",
       description:
         "Download your personalized calendar or export it directly to your device.",

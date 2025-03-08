@@ -23,7 +23,7 @@ export function FeaturesSection() {
       delay: 0.3,
     },
     {
-      icon: <FaMobileAlt className="text-blue-400" />,
+      icon: <FaMobileAlt className="text-green-400" />,
       title: "Cross-Platform",
       description:
         "Works on any device with a browser. Access your medication schedule anywhere.",
