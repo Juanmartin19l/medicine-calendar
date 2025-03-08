@@ -40,9 +40,7 @@ export function Footer() {
               <div className="bg-blue-500/20 p-2 rounded-full">
                 <FaPills className="text-blue-400" />
               </div>
-              <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                About Us
-              </span>
+              <span className="text-white">About Us</span>
             </h3>
             <p className="mb-4 text-gray-300">
               Your personal medication management tool, designed to help you
