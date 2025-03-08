@@ -3,89 +3,104 @@ import {
   FaGithub,
   FaLinkedin,
   FaEnvelope,
-  FaCode,
   FaPills,
-  FaCalendarAlt,
-  FaInfoCircle,
+  FaHeart,
+  FaInstagram,
+  FaCode,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
-  return (
-    <footer className="bg-gradient-to-b from-[#1a1a1a] to-[#161616] text-gray-400 pt-12 pb-6 border-t border-gray-800/40">
-      <div className="container mx-auto px-4">
-        {/* Logo Section */}
-        <div className="flex justify-center mb-10">
-          <div className="flex items-center gap-3">
-            <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 w-12 h-12 rounded-lg flex items-center justify-center border border-blue-500/20">
-              <FaPills className="text-2xl text-blue-400" />
-            </div>
-            <span className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Medicine Calendar
-            </span>
-          </div>
-        </div>
+  const contactInfo = [
+    { icon: <FaEnvelope />, text: "lavallejuanmartin@gmail.com" },
+  ];
 
-        {/* Upper Footer with Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          {/* About Column */}
+  const socialLinks = [
+    {
+      icon: <FaGithub />,
+      href: "https://github.com/Juanmartin19l",
+      label: "GitHub",
+    },
+    {
+      icon: <FaLinkedin />,
+      href: "https://www.linkedin.com/in/juan-martín-lavalle/",
+      label: "LinkedIn",
+    },
+    {
+      icon: <FaInstagram />,
+      href: "https://www.instagram.com/juan_martinlavalle/",
+      label: "Instagram",
+    },
+  ];
+
+  const fadeInUpVariant = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  return (
+    <footer className="bg-[#111111] relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500/30 via-purple-500/40 to-blue-400/30"></div>
+      <div className="absolute -top-24 -left-24 w-48 h-48 rounded-full bg-blue-500/5 blur-3xl"></div>
+      <div className="absolute -bottom-24 -right-24 w-64 h-64 rounded-full bg-purple-500/5 blur-3xl"></div>
+
+      {/* Main footer content */}
+      <div className="container mx-auto px-6 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-2">
+          {/* Brand column */}
           <motion.div
-            whileHover={{ y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="bg-[#1d1d1d] p-6 rounded-lg border border-gray-800/30 shadow-lg"
+            className="col-span-1"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            variants={fadeInUpVariant}
           >
-            <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <div className="bg-blue-500/20 p-2 rounded-full">
-                <FaPills className="text-blue-400" />
+            <div className="flex items-center gap-3 mb-6">
+              <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 w-10 h-10 rounded-lg flex items-center justify-center border border-blue-500/20">
+                <FaPills className="text-xl text-blue-400" />
               </div>
-              <span className="text-white">About Us</span>
-            </h3>
-            <p className="mb-4 text-gray-300">
-              Your personal medication management tool, designed to help you
-              stay on top of your health regimen with ease and precision.
+              <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                Medicine Calendar
+              </span>
+            </div>
+            <p className="text-gray-400 mb-6 max-w-xs">
+              A personal project to help track medication schedules and never
+              miss a dose.
             </p>
-            <div className="flex space-x-4">
-              <a
-                href="https://github.com/Juanmartin19l"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white transition-colors hover:scale-110 transform duration-200"
-                aria-label="GitHub"
-              >
-                <FaGithub size={20} />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/juan-mart%C3%ADn-lavalle/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-gray-800 hover:bg-blue-700 text-gray-300 hover:text-white transition-colors hover:scale-110 transform duration-200"
-                aria-label="LinkedIn"
-              >
-                <FaLinkedin size={20} />
-              </a>
-              <a
-                href="mailto:lavallejuanmartin@gmail.com"
-                className="p-2 rounded-full bg-gray-800 hover:bg-green-700 text-gray-300 hover:text-white transition-colors hover:scale-110 transform duration-200"
-                aria-label="Email"
-              >
-                <FaEnvelope size={20} />
-              </a>
+            <div className="flex space-x-3">
+              {socialLinks.map((link, idx) => (
+                <a
+                  key={idx}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  className="group flex items-center justify-center w-9 h-9 rounded-full bg-[#232323] hover:bg-gradient-to-br from-blue-500 to-purple-500 transition-all duration-300 border border-gray-700/30"
+                >
+                  <span className="text-gray-400 group-hover:text-white transition-colors duration-300">
+                    {link.icon}
+                  </span>
+                </a>
+              ))}
             </div>
           </motion.div>
 
           {/* Quick Links Column */}
           <motion.div
-            whileHover={{ y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="bg-[#1d1d1d] p-6 rounded-lg border border-gray-800/30 shadow-lg"
+            className="col-span-1"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            variants={fadeInUpVariant}
           >
-            <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-              <div className="bg-purple-500/20 p-2 rounded-full">
-                <FaCalendarAlt className="text-purple-400" />
-              </div>
-              <span className="text-white">Quick Links</span>
+            <h3 className="text-white font-semibold text-lg mb-6 flex items-center gap-3">
+              <div className="h-5 w-1 bg-gradient-to-b from-blue-400 to-purple-500 rounded-full"></div>
+              Quick Links
             </h3>
             <ul className="space-y-4">
               <li>
@@ -118,30 +133,35 @@ export function Footer() {
             </ul>
           </motion.div>
 
-          {/* Contact Column */}
+          {/* Contact column */}
           <motion.div
-            whileHover={{ y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="bg-[#1d1d1d] p-6 rounded-lg border border-gray-800/30 shadow-lg"
+            className="col-span-1"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            variants={fadeInUpVariant}
           >
-            <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <div className="bg-green-500/20 p-2 rounded-full">
-                <FaInfoCircle className="text-green-400" />
-              </div>
-              <span className="text-white">Contact</span>
+            <h3 className="text-white font-semibold text-lg mb-6 flex items-center gap-3">
+              <div className="h-5 w-1 bg-gradient-to-b from-blue-400 to-purple-500 rounded-full"></div>
+              Contact
             </h3>
-            <p className="mb-3 text-gray-300">Have questions or feedback?</p>
-            <a
-              href="mailto:lavallejuanmartin@gmail.com"
-              className="inline-flex items-center gap-2 bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 px-4 py-2 rounded-md transition-colors duration-200 border border-blue-500/20 mb-4"
-            >
-              <FaEnvelope size={16} />
-              <span>lavallejuanmartin@gmail.com</span>
-            </a>
-            <p className="text-sm text-gray-400 italic">
-              We value your input and are constantly working to improve Medicine
-              Calendar to better serve your health needs.
-            </p>
+            <ul className="space-y-4">
+              {contactInfo.map((info, idx) => (
+                <li key={idx} className="flex items-center text-gray-400">
+                  <span className="mr-3 text-purple-400">{info.icon}</span>
+                  {info.text}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8">
+              <a
+                href="mailto:lavallejuanmartin@gmail.com"
+                className="px-5 py-2.5 rounded-md bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-gray-200 hover:from-blue-500/30 hover:to-purple-500/30 transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40 inline-flex items-center"
+              >
+                <FaEnvelope className="mr-2" /> Contact Me
+              </a>
+            </div>
           </motion.div>
         </div>
 
@@ -153,10 +173,18 @@ export function Footer() {
           <p className="mb-4 md:mb-0 text-sm text-gray-500">
             &copy; {currentYear} Medicine Calendar. All rights reserved.
           </p>
-          <div className="flex items-center bg-gradient-to-r from-blue-900/20 to-purple-900/20 px-4 py-2 rounded-full border border-blue-800/20">
-            <FaCode className="mr-2 text-purple-400" />
-            <p className="text-sm">Developed with ❤️ by Juan Martin Lavalle</p>
-          </div>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            className="flex items-center bg-gradient-to-r from-blue-900/20 to-purple-900/20 hover:from-blue-600/30 hover:to-purple-600/30 px-4 py-2 rounded-full border border-blue-800/20 hover:border-blue-600/40 cursor-default group"
+          >
+            <FaCode className="mr-2 text-purple-400 group-hover:text-purple-300" />
+            <p className="text-sm">
+              Developed with{" "}
+              <FaHeart className="inline mx-1 text-red-500 group-hover:text-red-400 animate-pulse" />{" "}
+              by Juan Martin Lavalle
+            </p>
+          </motion.div>
         </div>
       </div>
     </footer>
