@@ -10,7 +10,7 @@ import { MedicineCounter } from "./list/MedicineCounter";
  */
 export function MedicineList({ medicines, onDelete }) {
   return (
-    <div className="flex flex-col h-[32rem]">
+    <div className="flex flex-col h-[28rem]">
       {/* List content with consistent height */}
       <div className="flex-grow overflow-hidden">
         <AnimatePresence mode="wait">

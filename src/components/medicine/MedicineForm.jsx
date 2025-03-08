@@ -15,9 +15,6 @@ function QuickSelectButton({ label, onClick, isActive, color }) {
     purple: isActive
       ? "bg-purple-500/30 border-purple-500/50"
       : "bg-[#2a2a2a] border-transparent hover:bg-[#323232]",
-    green: isActive
-      ? "bg-green-500/30 border-green-500/50"
-      : "bg-[#2a2a2a] border-transparent hover:bg-[#323232]",
   };
 
   const textColors = {
@@ -55,7 +52,6 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
   const [showIntervalTooltip, setShowIntervalTooltip] = useState(false);
   const [activeInterval, setActiveInterval] = useState(null);
   const [activeDuration, setActiveDuration] = useState(null);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const formRef = useRef(null);
   const intervalRef = useRef(null);
 
@@ -77,12 +73,12 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
 
   // Common intervals for quick selection
   const commonIntervals = [
-    { label: "Every 4 hours", value: 4 },
-    { label: "Every 6 hours", value: 6 },
-    { label: "Every 8 hours", value: 8 },
-    { label: "Every 12 hours", value: 12 },
-    { label: "Once daily", value: 24 },
-    { label: "Every 2 days", value: 48 },
+    { label: "4 hours", value: 4 },
+    { label: "6 hours", value: 6 },
+    { label: "8 hours", value: 8 },
+    { label: "12 hours", value: 12 },
+    { label: "Daily", value: 24 },
+    { label: "2 days", value: 48 },
   ];
 
   // Common durations for quick selection
@@ -144,10 +140,6 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
       setErrors({});
       setActiveInterval(null);
       setActiveDuration(null);
-
-      // Show success message
-      setShowSuccessMessage(true);
-      setTimeout(() => setShowSuccessMessage(false), 3000);
     }
   }
 
@@ -178,7 +170,7 @@ export function MedicineForm({ onSubmit, existingMedicines }) {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6" ref={formRef}>
+      <form onSubmit={handleSubmit} className="space-y-3" ref={formRef}>
         {/* Medication Name Field */}
         <FormField
           label="Medication Name"
