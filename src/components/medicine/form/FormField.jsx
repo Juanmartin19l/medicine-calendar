@@ -79,7 +79,7 @@ export function FormField({
     >
       <label
         htmlFor={fieldId}
-        className="block text-sm font-medium text-gray-300 flex items-center gap-2"
+        className="block text-sm font-medium text-gray-300 items-center gap-2"
       >
         {label}
       </label>
@@ -105,7 +105,7 @@ export function FormField({
           className={getInputClasses()}
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
+          onChange={(e) => onChange(e.target.value)}
           min={min}
           max={max}
           required={required}
