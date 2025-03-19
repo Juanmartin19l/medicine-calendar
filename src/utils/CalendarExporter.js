@@ -74,7 +74,8 @@ export async function exportToCalendar(medicines) {
 
     // Download file using the URL
     if (fileUrl) {
-      await downloadFile(fileUrl);
+      // Ensure fileUrl is the webcal:// URL before downloading
+      downloadFile(fileUrl);
 
       // Update the cache
       fileCache = {
@@ -82,8 +83,11 @@ export async function exportToCalendar(medicines) {
         fileUrl: fileUrl,
         fileName: fileName,
       };
+
+      return fileUrl;
     } else {
       console.error("Error: File URL is undefined");
+      throw new Error("Failed to get file URL");
     }
   } catch (error) {
     console.error("Error exporting calendar:", error);

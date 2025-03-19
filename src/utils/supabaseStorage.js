@@ -21,8 +21,12 @@ export async function getFileUrl(bucket, path) {
     throw new Error("Failed to get public URL");
   }
 
-  const webcalUrl = data.publicUrl.replace("https://", "webcal://");
+  // Ensure we always return a webcal URL
+  if (!data.publicUrl) {
+    throw new Error("Failed to get public URL");
+  }
 
+  const webcalUrl = data.publicUrl.replace(/^https?:\/\//i, "webcal://");
   return webcalUrl;
 }
 
