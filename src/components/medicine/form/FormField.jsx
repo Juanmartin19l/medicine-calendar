@@ -105,7 +105,7 @@ export function FormField({
           className={getInputClasses()}
           placeholder={placeholder}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={onChange}
           min={min}
           max={max}
           required={required}
