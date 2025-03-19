@@ -127,17 +127,9 @@ export async function exportToLocalCalendar(medicines) {
     // Generate filename
     const fileName = generateFileName();
 
-    // Download locally without uploading to Supabase
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }, 100);
+    // Use the downloadICSFile function from calendarGenerator
+    const { downloadICSFile } = await import("./calendarGenerator");
+    downloadICSFile(blob, fileName);
   } catch (error) {
     console.error("Error during local calendar export:", error);
     throw error;
