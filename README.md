@@ -21,20 +21,23 @@ _Preview image_
 - **Responsive Design**: Grid-based layout that adapts to different screen sizes.
 - **Animations**: Smooth animations for a better user experience.
 - **Local Storage**: Your medication data is saved in your browser's local storage.
+- **Unit Testing**: Implementation of automated tests to ensure code quality.
+- **SEO Optimization**: Metadata and tags for better search engine ranking.
 
 ---
 
 ## Technologies Used 🛠️
 
-- **React**: For building the user interface.
-- **React Router DOM**: For navigation between pages.
-- **React Icons**: For adding intuitive icons.
-- **Tailwind CSS**: For styling and responsive design.
+- **React 19**: For building the user interface with the latest performance improvements.
+- **React Router DOM 7**: For navigation between pages with advanced features.
+- **React Icons 5**: For adding intuitive icons.
+- **Tailwind CSS 4**: For styling and responsive design with the latest version.
 - **Framer Motion**: For smooth animations and transitions.
 - **ICS Library**: For generating calendar files.
 - **Supabase**: For backend storage of calendar files.
 - **Webcal Protocol**: For direct calendar subscription links.
-- **Vite**: For fast development and optimized builds.
+- **Vite 6**: For fast development and optimized builds.
+- **Vitest**: For modern and efficient unit testing.
 
 ---
 
