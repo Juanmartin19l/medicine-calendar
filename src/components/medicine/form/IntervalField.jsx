@@ -74,6 +74,7 @@ export function IntervalField({
         </label>
         <div className="relative" ref={intervalRef}>
           <FaInfoCircle
+            data-testid="info-icon"
             className="text-gray-400 hover:text-blue-400 cursor-pointer"
             onClick={() => setShowIntervalTooltip(!showIntervalTooltip)}
           />
@@ -85,7 +86,7 @@ export function IntervalField({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
               >
-                <p>Common intervals:</p>
+                <p>This defines how often:</p>
                 <ul className="list-disc pl-4 mt-1">
                   <li>4 hours: For medications needed frequently</li>
                   <li>6-8 hours: Common for antibiotics</li>

@@ -6,4 +6,8 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [tailwindcss(), react()],
   base: "/medicine-calendar",
+  test: {
+    globals: true,
+    environment: "jsdom",
+  },
 });

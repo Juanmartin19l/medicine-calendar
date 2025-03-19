@@ -74,7 +74,8 @@ export async function exportToCalendar(medicines) {
 
     // Download file using the URL
     if (fileUrl) {
-      await downloadFile(fileUrl);
+      // Ensure fileUrl is the webcal:// URL before downloading
+      downloadFile(fileUrl);
 
       // Update the cache
       fileCache = {
@@ -82,8 +83,11 @@ export async function exportToCalendar(medicines) {
         fileUrl: fileUrl,
         fileName: fileName,
       };
+
+      return fileUrl;
     } else {
       console.error("Error: File URL is undefined");
+      throw new Error("Failed to get file URL");
     }
   } catch (error) {
     console.error("Error exporting calendar:", error);
@@ -127,17 +131,9 @@ export async function exportToLocalCalendar(medicines) {
     // Generate filename
     const fileName = generateFileName();
 
-    // Download locally without uploading to Supabase
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }, 100);
+    // Use the downloadICSFile function from calendarGenerator
+    const { downloadICSFile } = await import("./calendarGenerator");
+    downloadICSFile(blob, fileName);
   } catch (error) {
     console.error("Error during local calendar export:", error);
     throw error;
